@@ -1,95 +1,89 @@
-import Image from 'next/image'
+'use client';
+import { SetStateAction, useEffect, useState } from 'react';
+import { Box, Typography } from '@mui/material';
+import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
+
+import Logo from './components/Home/Logo';
+import Join from './components/Home/Join';
+import FirstHalf from './components/Home/FirstHalf';
+import SecondHalf from './components/Home/SecondHalf';
+import FormLogin from './components/Home/FormLogin';
 import styles from './page.module.css'
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+function Home() {
+  const theme = useTheme();
+  const [isSmallScreen, setIsSmallScreen] = useState<SetStateAction<boolean>>(
+    (window.innerWidth <= theme.breakpoints.values.md)
+  );
+  const [showSecondHalf, setShowSecondHalf] = useState<SetStateAction<boolean>>(false);
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= theme.breakpoints.values.md);
+    };
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+    handleResize();
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+    window.addEventListener('resize', handleResize);
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [theme.breakpoints]);
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+  const themeStyle = createTheme({
+    typography: {
+      fontFamily: 'Quicksand, Arial, sans-serif',
+      h1: {
+        fontWeight: '600',
+      },
+    },
+    palette: {
+      primary: {
+        main: '#535353',
+      },
+      secondary: {
+        main: '#f8335e',
+      },
+    },
+  });
+
+  const handleNext = () => {
+    setShowSecondHalf(true);
+  };
+
+  const handleBack = () => {
+    setShowSecondHalf(false);
+  };
+
+  const desktopView = (
+    <ThemeProvider theme={themeStyle}>
+      <main className={styles.main}>
+        <Logo />
+        <Box className={styles.sideForm}>
+          <Join />
+          <Typography variant='h3' sx={{marginTop: '40px'}}>
+            Acesse seus<br />restaurantes<br />prediletos
+          </Typography>
+          <FormLogin />
+        </Box>
+      </main>
+    </ThemeProvider >
+  );
+
+  const mobileView = (
+    <ThemeProvider theme={themeStyle}>
+      <main className={styles.main}>
+        {!showSecondHalf ? (
+          <FirstHalf onNext={handleNext} />
+        ) : (
+          <SecondHalf onBack={handleBack} />
+        )}
+      </main>
+    </ThemeProvider>
+  );
+
+  return isSmallScreen ? mobileView : desktopView;
+};
+
+export default Home;
