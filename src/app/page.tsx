@@ -13,7 +13,7 @@ import styles from './page.module.css'
 function Home() {
   const theme = useTheme();
   const [isSmallScreen, setIsSmallScreen] = useState<SetStateAction<boolean>>(
-    (window.innerWidth <= theme.breakpoints.values.md)
+    false
   );
   const [showSecondHalf, setShowSecondHalf] = useState<SetStateAction<boolean>>(false);
 
