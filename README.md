@@ -7,7 +7,9 @@
 ![stars - quem-tem-boca](https://img.shields.io/github/stars/nascimentoliveira/quem-tem-boca?color=007ec6&style=flat-square)
 ![forks - quem-tem-boca](https://img.shields.io/github/forks/nascimentoliveira/quem-tem-boca?color=007ec6&style=flat-square)
 
-# QUEM TEM BOCA
+#  🚧👷🏻 QUEM TEM BOCA 👷🏻🚧
+
+> 🚧👷🏻 Quem Tem Boca está sendo desenvolvido! Algumas funcionalidades podem não estar disponíveis.
 
 Bem-vindo ao Quem Tem Boca, a solução definitiva para atender aos seus desejos culinários no conforto da sua casa. Com nossa plataforma desenvolvida em Next.js, estamos comprometidos em tornar a experiência de pedir sua refeição de maneira simples, conveniente e verdadeiramente deliciosa. Explore uma rica variedade de restaurantes locais e escolha entre uma ampla gama de pratos, tudo com alguns cliques.
 
@@ -93,7 +95,6 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
 
 - Node.js (versão 18.16 ou superior)
 - NPM (versão 9.8 ou superior)
-- dotenv-cli (versão 2.2.0)
 
 ## Instalação
 
@@ -138,7 +139,7 @@ Antes de executar a aplicação, é necessário configurar as variáveis de ambi
 5. Execute o projeto:
 
    ```bash
-   npm start
+   npm run dev
    ```
 6. A aplicação ficará disponível em:
 
