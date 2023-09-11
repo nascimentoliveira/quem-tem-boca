@@ -8,6 +8,17 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "keywords": [
+    "que-tem-boca",
+    "front-end",
+    "react",
+    "Next.JS",
+    "Prisma ORM",
+    "postgres",
+    "express"
+  ],
+  "author": "Thiago Oliveira",
+  "license": "MPL-2.0",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
