@@ -44,7 +44,7 @@
 
 .buttonHome {
   height: 48px;
-  font-family: "Quicksand", sans-serif;
+  font-family: Quicksand, Arial, sans-serif;
   font-size: 14px;
   font-weight: bold;
   text-transform: none;
@@ -53,10 +53,10 @@
 }
 
 .buttonChangeForm {
-  color: white;
+  color: #ffffff;
   font-size: 18px;
   height: max-content;
-  font-family: "Quicksand", sans-serif;
+  font-family: Quicksand, Arial, sans-serif;
   text-transform: none;
   flex-direction: column;
   align-items: flex-end;
@@ -90,7 +90,7 @@
 }
 
 .input {
-  background: white;
+  background: #ffffff;
   border-radius: 4px;
 }
 
@@ -101,8 +101,8 @@
 }
 
 .buttonTextForm {
-  font-family: "Quicksand", sans-serif;
-  color: white;
+  font-family: Quicksand, Arial, sans-serif;
+  color: #ffffff;
   font-weight: bold;
   font-size: 16px;
   text-transform: none;
