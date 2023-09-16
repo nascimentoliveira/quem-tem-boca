@@ -36,6 +36,16 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
     event.preventDefault();
   };
 
+  const buttonTextForm = {
+    fontFamily: "Quicksand, Arial, sans-serif",
+    color: "#ffffff",
+    fontWeight: "bold",
+    fontSize: "16px",
+    textTransform: "none",
+    justifyContent: "start",
+    width: "max-content",
+  }
+
   return (
     <Stack spacing={1} className={styles.form}>
       <TextField
@@ -95,7 +105,7 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
       </Button>
       <Button
         variant="text"
-        className={styles.buttonTextForm}
+        sx={buttonTextForm}
         onClick={() => setCurrentForm("reset-password")}
       >
         Esqueci minha senha
