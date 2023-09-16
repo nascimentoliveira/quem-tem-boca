@@ -44,7 +44,7 @@
 
 .buttonHome {
   height: 48px;
-  font-family: Quicksand, sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-size: 14px;
   font-weight: bold;
   text-transform: none;
@@ -56,7 +56,7 @@
   color: white;
   font-size: 18px;
   height: max-content;
-  font-family: Quicksand, sans-serif;
+  font-family: "Quicksand", sans-serif;
   text-transform: none;
   flex-direction: column;
   align-items: flex-end;
@@ -101,6 +101,7 @@
 }
 
 .buttonTextForm {
+  font-family: "Quicksand", sans-serif;
   color: white;
   font-weight: bold;
   font-size: 16px;
