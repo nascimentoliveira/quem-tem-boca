@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { ThemeProvider, createTheme, useTheme } from "@mui/material/styles";
 
+import { UserProvider } from "@/app/contexts/userContext";
 import MobileView from "./components/Home/MobileView";
 import DesktopView from "./components/Home/DesktopView";
 
@@ -45,17 +46,19 @@ function Home() {
 
   return (
     <ThemeProvider theme={themeStyle}>
-      {isSmallScreen ?
-        <MobileView
-          currentForm={currentForm}
-          setCurrentForm={setCurrentForm}
-        />
-        :
-        <DesktopView
-          currentForm={currentForm}
-          setCurrentForm={setCurrentForm}
-        />
-      }
+      <UserProvider>
+        {isSmallScreen ?
+          <MobileView
+            currentForm={currentForm}
+            setCurrentForm={setCurrentForm}
+          />
+          :
+          <DesktopView
+            currentForm={currentForm}
+            setCurrentForm={setCurrentForm}
+          />
+        }
+      </UserProvider>
     </ThemeProvider>
   );
 };

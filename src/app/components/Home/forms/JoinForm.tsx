@@ -4,6 +4,7 @@ import { useForm, Controller, FormProvider } from "react-hook-form";
 import Swal from "sweetalert2";
 import {
   Button,
+  CircularProgress,
   FilledInput,
   FormControl,
   FormHelperText,
@@ -48,8 +49,8 @@ const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
     try {
       setLoading(true);
       const body = {
-        email: data.email,
-        username: data.username,
+        email: data.email.toLowerCase(),
+        username: data.username.toLowerCase().replace(/(?:^|\s)\w/g, (match) => match.toUpperCase()),
         password: data.password,
       };
       const response = await api.post("/users", body);
@@ -63,11 +64,10 @@ const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
       });
       setCurrentForm("login");
     } catch (error: any) {
-      console.log(error.response?.data.message);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Não foi possivel cadastrar um novo usuário.",
+        text: "Não foi possivel cadastrar um novo usuário!",
         footer: `<p>Por que tenho esse problema? <br /> 
           ${error.response?.data.message}</p>`,
       });
@@ -230,14 +230,22 @@ const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
             color="secondary"
             fullWidth
             disabled={loading}
-            startIcon={<Send />}
+            startIcon={
+              loading ?
+                <CircularProgress color="inherit" size={25} />
+                :
+                <Send />
+            }
             sx={{
               height: "48px",
               fontSize: "18px",
               textTransform: "none",
+              "&.Mui-disabled": {
+                "backgroundColor": "#ff5476",
+              }
             }}
           >
-            Cadastrar
+            {loading ? "Cadastrando..." : "Cadastrar"}
           </Button>
         </Stack>
       </form>

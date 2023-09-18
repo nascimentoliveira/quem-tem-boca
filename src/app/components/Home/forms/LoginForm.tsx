@@ -1,11 +1,15 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import { Visibility, VisibilityOff, Send } from "@mui/icons-material";
+import { Controller, FormProvider, useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 import {
   Button,
+  CircularProgress,
   FilledInput,
   FormControl,
   FormControlLabel,
   FormGroup,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -16,115 +20,222 @@ import {
 
 import { Form } from "@/app/page";
 import styles from "@/app/page.module.css";
+import api from "@/app/utils/api";
+import { useRouter } from "next/router";
+import { UserContext } from "@/app/contexts/userContext";
 
 interface LoginFormProps {
   setCurrentForm: Dispatch<SetStateAction<Form>>;
 }
 
 const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [keepLogged, setKeepLogged] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
 
-  function handleClick() {
-    setLoading(true);
+  type FormLogin = {
+    email: string;
+    password: string;
   }
+
+  const [keepLogged, setKeepLogged] = useState<boolean>(true);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const methods = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const { handleSubmit, control, formState: { errors }, watch } = methods;
+  const { accessToken, setAccessToken, setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    if (accessToken) {
+      console.log(accessToken); // TODO
+    }
+  }, [accessToken]);
+
+  const onSubmit = async (data: FormLogin) => {
+    try {
+      setLoading(true);
+      const body = {
+        email: data.email.toLowerCase(),
+        password: data.password,
+      };
+      const response = await api.post("/auth", body);
+      setLoading(false);
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Acesso permitido',
+        showConfirmButton: false,
+        timer: 1200
+      });
+      if (keepLogged) {
+        localStorage.setItem("Quem-tem-boca", JSON.stringify(response.data));
+      }
+      setAccessToken(response.data.token);
+      delete response.data.token;
+      setUser(response.data);
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Não foi possivel entrar!",
+        footer: `<p>Por que tenho esse problema? <br /> 
+          ${error.response?.data.message}</p>`,
+      });
+      console.error("Error registering user:", error);
+      setLoading(false);
+    }
+  };
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   }
-  const handleKeepLogged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setKeepLogged(event.target.checked);
-  };
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
   return (
-    <Stack spacing={1} className={styles.form}>
-      <TextField
-        type="email"
-        label="e-mail"
-        variant="filled"
-        color="primary"
-        size="small"
-        fullWidth
-        required
-        className={styles.input}
-      />
-      <FormControl
-        variant="filled"
-        color="primary"
-        size="small"
-        fullWidth
-        required
-        className={styles.input}
+    <FormProvider {...methods}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        autoComplete="off"
       >
-        <InputLabel htmlFor="filled-adornment-password">
-          senha
-        </InputLabel>
-        <FilledInput
-          id="filled-adornment-password"
-          type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment
-              position="end"
-            >
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
+        <Stack
+          spacing={1}
+          className={styles.form}
+        >
+          <Controller
+            name="email"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: "Campo e-mail é obrigatório",
+              pattern: {
+                value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                message: "Insira um endereço de e-mail válido.",
+              },
+            }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="email"
+                label="e-mail"
+                variant="filled"
+                color="primary"
+                size="small"
+                fullWidth
+                disabled={loading}
+                className={styles.input}
+                error={!!errors.email}
+                helperText={errors.email ? `${errors.email.message}` : ""}
+              />
+            )}
+          />
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: "Campo senha é obrigatório",
+            }}
+            render={({ field }) => (
+              < FormControl
+                {...field}
+                variant="filled"
+                color="primary"
+                size="small"
+                fullWidth
+                required
+                disabled={loading}
+                className={styles.input}
+                error={!!errors.password}
               >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              defaultChecked
-              color="secondary"
-              checked={keepLogged}
-              onChange={() => setKeepLogged(!keepLogged)}
+                <InputLabel htmlFor="filled-password">
+                  senha
+                </InputLabel>
+                <FilledInput
+                  id="filled-password"
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment
+                      position="end"
+                    >
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+                {!!errors.password &&
+                  <FormHelperText id="filled-password">
+                    {`${errors.password.message}`}
+                  </FormHelperText>
+                }
+              </FormControl>
+            )}
+          />
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch
+                  defaultChecked
+                  color="secondary"
+                  checked={keepLogged}
+                  onChange={() => setKeepLogged(!keepLogged)}
+                />
+              }
+              label="Lembre de mim"
             />
-          }
-          label="Lembre de mim"
-        />
-      </FormGroup>
-      <Button
-        variant="contained"
-        color="secondary"
-        fullWidth
-        startIcon={<Send />}
-        sx={{
-          height: "48px",
-          fontSize: "18px",
-          textTransform: "none",
-        }}
-      >
-        Entrar
-      </Button>
-      <Button
-        variant="text"
-        sx={{
-          fontFamily: "Quicksand, Arial, sans-serif",
-          color: "white",
-          fontWeight: "bold",
-          fontSize: "16px",
-          justifyContent: "start",
-          width: "max-content",
-          textTransform: "none",
-        }}
-        onClick={() => setCurrentForm("reset-password")}
-      >
-        Esqueci minha senha
-      </Button>
-    </Stack>
+          </FormGroup>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            fullWidth
+            disabled={loading}
+            startIcon={
+              loading ?
+                <CircularProgress color="inherit" size={25} />
+                :
+                <Send />
+            }
+            sx={{
+              height: "48px",
+              fontSize: "18px",
+              textTransform: "none",
+              "&.Mui-disabled": {
+                "backgroundColor": "#ff5476",
+              }
+            }}
+          >
+            {loading ? "Entrando..." : "Entrar"}
+          </Button>
+          <Button
+            variant="text"
+            disabled={loading}
+            sx={{
+              fontFamily: "Quicksand, Arial, sans-serif",
+              color: "white",
+              fontWeight: "bold",
+              fontSize: "16px",
+              justifyContent: "start",
+              width: "max-content",
+              textTransform: "none",
+            }}
+            onClick={() => setCurrentForm("reset-password")}
+          >
+            Esqueci minha senha
+          </Button>
+        </Stack>
+      </form>
+    </FormProvider>
   );
 };
 
