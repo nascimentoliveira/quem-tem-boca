@@ -21,7 +21,11 @@ const ResetPasswordForm = () => {
         color="secondary"
         fullWidth
         startIcon={<Send />}
-        className={styles.buttonForm}
+        sx={{
+          height: "48px",
+          fontSize: "18px",
+          textTransform: "none",
+        }}
       >
         Recuperar senha
       </Button>

@@ -49,17 +49,11 @@
   font-weight: bold;
   text-transform: none;
   color: #ffffff;
+  z-index: 3;
   animation: entranceAnim 1s cubic-bezier(0, 0.55, 0.45, 1) 0s 1 normal forwards;
 }
 
 .buttonChangeForm {
-  color: #ffffff;
-  font-size: 18px;
-  height: max-content;
-  font-family: Quicksand, Arial, sans-serif;
-  text-transform: none;
-  flex-direction: column;
-  align-items: flex-end;
   z-index: 2;
   animation: entranceAnim 1s cubic-bezier(0, 0.55, 0.45, 1) 0s 1 normal forwards;
 }
@@ -92,22 +86,6 @@
 .input {
   background: #ffffff;
   border-radius: 4px;
-}
-
-.buttonForm {
-  height: 48px;
-  font-size: 18px;
-  text-transform: none;
-}
-
-.buttonTextForm {
-  font-family: Quicksand, Arial, sans-serif;
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 16px;
-  text-transform: none;
-  justify-content: start;
-  width: max-content;
 }
 
 @keyframes entranceAnim {

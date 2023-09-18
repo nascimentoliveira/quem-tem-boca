@@ -11,18 +11,27 @@ interface ChangeFormButtonProps {
 
 const ChangeFormButton = ({ currentForm, setCurrentForm }: ChangeFormButtonProps) => {
   return (
-    <Button
-      variant="text"
-      className={styles.buttonChangeForm}
-      onClick={() => setCurrentForm(currentForm === "join" ? "login" : "join")}
-    >
-      <Typography whiteSpace="nowrap">
-        {currentForm === "join" ? "Já possui conta?" : "Não tem conta?"}
-      </Typography>
-      <Typography color="secondary" whiteSpace="nowrap">
-        {currentForm === "join" ? "Entre" : "Cadastre-se"}
-      </Typography>
-    </Button>
+    <div className={styles.buttonChangeForm}>
+      <Button
+        variant="text"
+        sx={{
+          color: "white",
+          fontSize: "18px",
+          height: "max-content",
+          flexDirection: "column",
+          alignItems: "flex-end",
+          textTransform: "none",
+        }}
+        onClick={() => setCurrentForm(currentForm === "join" ? "login" : "join")}
+      >
+        <Typography whiteSpace="nowrap">
+          {currentForm === "join" ? "Já possui conta?" : "Não tem conta?"}
+        </Typography>
+        <Typography color="secondary" whiteSpace="nowrap">
+          {currentForm === "join" ? "Entre" : "Cadastre-se"}
+        </Typography>
+      </Button>
+    </div>
   );
 };
 

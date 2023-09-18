@@ -23,7 +23,12 @@ interface LoginFormProps {
 
 const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [keepLogged, setKeepLogged] = useState<boolean>(false);
+  const [keepLogged, setKeepLogged] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  function handleClick() {
+    setLoading(true);
+  }
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -35,16 +40,6 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-
-  const buttonTextForm = {
-    fontFamily: "Quicksand, Arial, sans-serif",
-    color: "#ffffff",
-    fontWeight: "bold",
-    fontSize: "16px",
-    textTransform: "none",
-    justifyContent: "start",
-    width: "max-content",
-  }
 
   return (
     <Stack spacing={1} className={styles.form}>
@@ -90,7 +85,14 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
       </FormControl>
       <FormGroup>
         <FormControlLabel
-          control={<Switch defaultChecked color="secondary" />}
+          control={
+            <Switch
+              defaultChecked
+              color="secondary"
+              checked={keepLogged}
+              onChange={() => setKeepLogged(!keepLogged)}
+            />
+          }
           label="Lembre de mim"
         />
       </FormGroup>
@@ -99,13 +101,25 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
         color="secondary"
         fullWidth
         startIcon={<Send />}
-        className={styles.buttonForm}
+        sx={{
+          height: "48px",
+          fontSize: "18px",
+          textTransform: "none",
+        }}
       >
         Entrar
       </Button>
       <Button
         variant="text"
-        sx={buttonTextForm}
+        sx={{
+          fontFamily: "Quicksand, Arial, sans-serif",
+          color: "white",
+          fontWeight: "bold",
+          fontSize: "16px",
+          justifyContent: "start",
+          width: "max-content",
+          textTransform: "none",
+        }}
         onClick={() => setCurrentForm("reset-password")}
       >
         Esqueci minha senha
