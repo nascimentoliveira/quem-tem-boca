@@ -28,11 +28,15 @@ const Forms = ({ currentForm, setCurrentForm }: FormsProps) => {
       )}
 
       {currentForm === "join" && (
-        <JoinForm />
+        <JoinForm
+          setCurrentForm={setCurrentForm}
+        />
       )}
 
       {currentForm === "reset-password" && (
-        <ResetPasswordForm />
+        <ResetPasswordForm
+          setCurrentForm={setCurrentForm}
+        />
       )}
     </Stack>
   );

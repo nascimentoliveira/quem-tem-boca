@@ -2,8 +2,14 @@ import { Send } from "@mui/icons-material";
 import { Button, Stack, TextField } from "@mui/material";
 
 import styles from "@/app/page.module.css";
+import { Dispatch, SetStateAction } from "react";
+import { Form } from "@/app/page";
 
-const ResetPasswordForm = () => {
+interface ResetPasswordFormProps {
+  setCurrentForm: Dispatch<SetStateAction<Form>>;
+}
+
+const ResetPasswordForm = ({ setCurrentForm }: ResetPasswordFormProps) => {
   return (
     <Stack spacing={1} className={styles.form}>
       <TextField
