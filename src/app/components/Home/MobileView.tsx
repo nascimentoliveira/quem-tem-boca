@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Box, Fab } from "@mui/material";
-import { EastRounded, KeyboardBackspaceRounded }from "@mui/icons-material";
+import { EastRounded, KeyboardBackspaceRounded } from "@mui/icons-material";
 
 import { Form } from "@/app/page";
 import styles from "@/app/page.module.css";

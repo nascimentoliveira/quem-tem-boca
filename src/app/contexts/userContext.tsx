@@ -35,9 +35,9 @@ export function UserProvider({ children }: UserProviderProps) {
 
     if (localStoreData) {
       const localData = JSON.parse(localStoreData);
-      setAccessToken(localData.token ?? null)
+      setAccessToken(localData.accessToken ?? null)
 
-      delete localData.token;
+      delete localData.accessToken;
 
       setUser(localData ?? null);
     }

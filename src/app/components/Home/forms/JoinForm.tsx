@@ -53,7 +53,7 @@ const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
         username: data.username.toLowerCase().replace(/(?:^|\s)\w/g, (match) => match.toUpperCase()),
         password: data.password,
       };
-      const response = await api.post("/users", body);
+      await api.post("/users", body);
       setLoading(false);
       Swal.fire({
         position: 'center',

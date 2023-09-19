@@ -1,6 +1,8 @@
+"use client"
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import { Visibility, VisibilityOff, Send } from "@mui/icons-material";
 import { Controller, FormProvider, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import {
   Button,
@@ -18,11 +20,10 @@ import {
   TextField,
 } from "@mui/material";
 
+import { UserContext } from "@/app/contexts/userContext";
 import { Form } from "@/app/page";
 import styles from "@/app/page.module.css";
 import api from "@/app/utils/api";
-import { useRouter } from "next/router";
-import { UserContext } from "@/app/contexts/userContext";
 
 interface LoginFormProps {
   setCurrentForm: Dispatch<SetStateAction<Form>>;
@@ -44,14 +45,15 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
       password: "",
     },
   });
-  const { handleSubmit, control, formState: { errors }, watch } = methods;
+  const { handleSubmit, control, formState: { errors } } = methods;
   const { accessToken, setAccessToken, setUser } = useContext(UserContext);
+  const router = useRouter();
 
   useEffect(() => {
     if (accessToken) {
-      console.log(accessToken); // TODO
+      router.push('/establishments')
     }
-  }, [accessToken]);
+  }, [accessToken, router]);
 
   const onSubmit = async (data: FormLogin) => {
     try {
@@ -75,6 +77,7 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
       setAccessToken(response.data.token);
       delete response.data.token;
       setUser(response.data);
+      router.push('/establishments')
     } catch (error: any) {
       Swal.fire({
         icon: "error",
@@ -229,7 +232,7 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
               width: "max-content",
               textTransform: "none",
             }}
-            onClick={() => setCurrentForm("reset-password")}
+            onClick={() => setCurrentForm("recovery")}
           >
             Esqueci minha senha
           </Button>

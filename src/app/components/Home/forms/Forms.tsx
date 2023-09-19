@@ -5,7 +5,7 @@ import { Form } from "@/app/page";
 import styles from "@/app/page.module.css";
 import LoginForm from "./LoginForm";
 import JoinForm from "./JoinForm";
-import ResetPasswordForm from "./ResetPasswordForm";
+import RecoveryForm from "./RecoveryForm";
 
 interface FormsProps {
   currentForm: Form;
@@ -33,8 +33,8 @@ const Forms = ({ currentForm, setCurrentForm }: FormsProps) => {
         />
       )}
 
-      {currentForm === "reset-password" && (
-        <ResetPasswordForm
+      {currentForm === "recovery" && (
+        <RecoveryForm
           setCurrentForm={setCurrentForm}
         />
       )}

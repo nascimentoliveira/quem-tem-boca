@@ -6,7 +6,7 @@ import { UserProvider } from "@/app/contexts/userContext";
 import MobileView from "./components/Home/MobileView";
 import DesktopView from "./components/Home/DesktopView";
 
-export type Form = "login" | "join" | "reset-password";
+export type Form = "login" | "join" | "recovery";
 
 function Home() {
   const theme = useTheme();
