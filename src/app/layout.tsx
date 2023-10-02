@@ -9,17 +9,13 @@ export const metadata: Metadata = {
   description: 'Acesse seus restaurantes prediletos',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='pt-br'>
+    <html lang="pt-br">
       <head>
         <link
-          rel='stylesheet'
-          href='https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap'
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap"
         />
       </head>
       <body className={quicksand.className}>{children}</body>

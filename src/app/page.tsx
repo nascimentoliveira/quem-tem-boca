@@ -1,17 +1,18 @@
-"use client";
-import { useEffect, useState } from "react";
-import { ThemeProvider, createTheme, useTheme } from "@mui/material/styles";
+'use client';
+import { useEffect, useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 
-import { UserProvider } from "@/app/contexts/userContext";
-import MobileView from "./components/Home/MobileView";
-import DesktopView from "./components/Home/DesktopView";
+import { UserProvider } from '@/app/contexts/userContext';
+import MobileView from './components/Home/MobileView';
+import DesktopView from './components/Home/DesktopView';
+import { ThemeWrapper } from './themes/theme';
 
-export type Form = "login" | "join" | "recovery";
+export type Form = 'login' | 'join' | 'recovery';
 
-function Home() {
+const Home = () => {
   const theme = useTheme();
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
-  const [currentForm, setCurrentForm] = useState<Form>("login");
+  const [currentForm, setCurrentForm] = useState<Form>('login');
 
   useEffect(() => {
     const handleResize = () => {
@@ -20,46 +21,23 @@ function Home() {
 
     handleResize();
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, [theme.breakpoints]);
 
-  const themeStyle = createTheme({
-    typography: {
-      fontFamily: "Quicksand, Arial, sans-serif",
-      h1: {
-        fontWeight: "600",
-      },
-    },
-    palette: {
-      primary: {
-        main: "#535353",
-      },
-      secondary: {
-        main: "#f8335e",
-      },
-    },
-  });
-
   return (
-    <ThemeProvider theme={themeStyle}>
+    <ThemeWrapper>
       <UserProvider>
-        {isSmallScreen ?
-          <MobileView
-            currentForm={currentForm}
-            setCurrentForm={setCurrentForm}
-          />
-          :
-          <DesktopView
-            currentForm={currentForm}
-            setCurrentForm={setCurrentForm}
-          />
-        }
+        {isSmallScreen ? (
+          <MobileView currentForm={currentForm} setCurrentForm={setCurrentForm} />
+        ) : (
+          <DesktopView currentForm={currentForm} setCurrentForm={setCurrentForm} />
+        )}
       </UserProvider>
-    </ThemeProvider>
+    </ThemeWrapper>
   );
 };
 
