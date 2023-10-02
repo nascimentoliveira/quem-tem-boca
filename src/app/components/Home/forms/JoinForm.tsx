@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { Visibility, VisibilityOff, Send } from "@mui/icons-material";
-import { useForm, Controller, FormProvider } from "react-hook-form";
-import Swal from "sweetalert2";
+import { Dispatch, SetStateAction, useState } from 'react';
+import { Visibility, VisibilityOff, Send } from '@mui/icons-material';
+import { useForm, Controller, FormProvider } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import {
   Button,
   CircularProgress,
@@ -13,111 +13,118 @@ import {
   InputLabel,
   Stack,
   TextField,
-} from "@mui/material";
+  styled,
+} from '@mui/material';
 
-import styles from "@/app/page.module.css";
-import api from "@/app/utils/api";
-import { Form } from "@/app/page";
+import styles from '@/app/page.module.css';
+import api from '@/app/utils/api';
+import { Form } from '@/app/page';
+import theme from '@/app/themes/theme';
 
 interface JoinFormProps {
   setCurrentForm: Dispatch<SetStateAction<Form>>;
 }
 
 const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
-
   type FormJoin = {
     email: string;
     username: string;
     password: string;
     confirmPassword: string;
-  }
+  };
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const methods = useForm({
     defaultValues: {
-      email: "",
-      username: "",
-      password: "",
-      confirmPassword: "",
+      email: '',
+      username: '',
+      password: '',
+      confirmPassword: '',
     },
   });
-  const { handleSubmit, control, formState: { errors }, watch } = methods;
-  const password = watch("password", "");
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    watch,
+  } = methods;
+  const password = watch('password', '');
 
   const onSubmit = async (data: FormJoin) => {
     try {
       setLoading(true);
       const body = {
         email: data.email.toLowerCase(),
-        username: data.username.toLowerCase().replace(/(?:^|\s)\w/g, (match) => match.toUpperCase()),
+        username: data.username
+          .toLowerCase()
+          .replace(/(?:^|\s)\w/g, (match) => match.toUpperCase()),
         password: data.password,
       };
-      await api.post("/users", body);
+      await api.post('/users', body);
       setLoading(false);
       Swal.fire({
         position: 'center',
         icon: 'success',
         title: 'Cadastrado com sucesso! Por favor faça login.',
         showConfirmButton: false,
-        timer: 1200
+        timer: 1200,
       });
-      setCurrentForm("login");
+      setCurrentForm('login');
     } catch (error: any) {
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
+        icon: 'error',
+        title: 'Oops...',
         text: error.response?.data.message,
-        footer: `<p>Por que tenho esse problema? <br /> 
+        footer: `<p>Por que tenho esse problema? <br />
         Não foi possivel cadastrar um novo usuário.</p>`,
       });
-      console.error("Error registering user:", error);
+      console.error('Error registering user:', error);
       setLoading(false);
     }
   };
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
-  }
+  };
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
+  const StyledTextField = styled(TextField)({
+    '& label.Mui-focused': {
+      color: theme.palette.primary.contrastText,
+    },
+  });
+
   return (
     <FormProvider {...methods}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        autoComplete="off"
-      >
-        <Stack
-          spacing={1}
-          className={styles.form}
-        >
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+        <Stack spacing={1} className={styles.form}>
           <Controller
             name="email"
             control={control}
             defaultValue=""
             rules={{
-              required: "Campo e-mail é obrigatório",
+              required: 'Campo e-mail é obrigatório',
               pattern: {
                 value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-                message: "Insira um endereço de e-mail válido.",
+                message: 'Insira um endereço de e-mail válido.',
               },
             }}
             render={({ field }) => (
-              <TextField
+              <StyledTextField
                 {...field}
                 type="email"
                 label="e-mail"
                 variant="filled"
-                color="primary"
                 size="small"
                 fullWidth
                 disabled={loading}
                 className={styles.input}
                 error={!!errors.email}
-                helperText={errors.email ? `${errors.email.message}` : ""}
+                helperText={errors.email ? `${errors.email.message}` : ''}
               />
             )}
           />
@@ -126,25 +133,24 @@ const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
             control={control}
             defaultValue=""
             rules={{
-              required: "Campo nome é obrigatório",
+              required: 'Campo nome é obrigatório',
               minLength: {
                 value: 3,
-                message: "Nome deve ter pelo menos 3 caracteres",
+                message: 'Nome deve ter pelo menos 3 caracteres',
               },
             }}
             render={({ field }) => (
-              <TextField
+              <StyledTextField
                 {...field}
                 type="text"
                 label="nome"
                 variant="filled"
-                color="primary"
                 size="small"
                 fullWidth
                 disabled={loading}
                 className={styles.input}
                 error={!!errors.username}
-                helperText={errors.username ? `${errors.username.message}` : ""}
+                helperText={errors.username ? `${errors.username.message}` : ''}
               />
             )}
           />
@@ -153,34 +159,35 @@ const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
             control={control}
             defaultValue=""
             rules={{
-              required: "Campo senha é obrigatório",
+              required: 'Campo senha é obrigatório',
               pattern: {
                 value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-                message: "A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.",
+                message:
+                  'A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.',
               },
             }}
             render={({ field }) => (
-              < FormControl
+              <FormControl
                 {...field}
                 variant="filled"
-                color="primary"
                 size="small"
                 fullWidth
                 required
                 disabled={loading}
                 className={styles.input}
                 error={!!errors.password}
+                sx={{
+                  '& label.Mui-focused': {
+                    color: theme.palette.primary.contrastText,
+                  },
+                }}
               >
-                <InputLabel htmlFor="filled-password">
-                  senha
-                </InputLabel>
+                <InputLabel htmlFor="filled-password">senha</InputLabel>
                 <FilledInput
                   id="filled-password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   endAdornment={
-                    <InputAdornment
-                      position="end"
-                    >
+                    <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
                         onClick={handleShowPassword}
@@ -192,11 +199,11 @@ const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
                     </InputAdornment>
                   }
                 />
-                {!!errors.password &&
+                {!!errors.password && (
                   <FormHelperText id="filled-password">
                     {`${errors.password.message}`}
                   </FormHelperText>
-                }
+                )}
               </FormControl>
             )}
           />
@@ -205,22 +212,21 @@ const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
             control={control}
             defaultValue=""
             rules={{
-              required: "Campo repita a senha é obrigatório",
-              validate: (value) => value === password || "As senhas não coincidem",
+              required: 'Campo repita a senha é obrigatório',
+              validate: (value) => value === password || 'As senhas não coincidem',
             }}
             render={({ field }) => (
-              <TextField
+              <StyledTextField
                 {...field}
                 type="password"
                 label="Repita a senha"
                 variant="filled"
-                color="primary"
                 size="small"
                 fullWidth
                 disabled={loading}
                 className={styles.input}
                 error={!!errors.confirmPassword}
-                helperText={errors.confirmPassword ? `${errors.confirmPassword.message}` : ""}
+                helperText={errors.confirmPassword ? `${errors.confirmPassword.message}` : ''}
               />
             )}
           />
@@ -230,22 +236,17 @@ const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
             color="secondary"
             fullWidth
             disabled={loading}
-            startIcon={
-              loading ?
-                <CircularProgress color="inherit" size={25} />
-                :
-                <Send />
-            }
+            startIcon={loading ? <CircularProgress color="inherit" size={25} /> : <Send />}
             sx={{
-              height: "48px",
-              fontSize: "18px",
-              textTransform: "none",
-              "&.Mui-disabled": {
-                "backgroundColor": "#ff5476",
-              }
+              height: '48px',
+              fontSize: '18px',
+              textTransform: 'none',
+              '&.Mui-disabled': {
+                backgroundColor: '#ff5476',
+              },
             }}
           >
-            {loading ? "Cadastrando..." : "Cadastrar"}
+            {loading ? 'Cadastrando...' : 'Cadastrar'}
           </Button>
         </Stack>
       </form>

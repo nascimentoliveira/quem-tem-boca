@@ -1,4 +1,11 @@
-import React, { createContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from "react";
+import React, {
+  createContext,
+  useState,
+  ReactNode,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 
 type UserProviderProps = {
   children: ReactNode;
@@ -14,7 +21,7 @@ type UserContextType = {
   user: UserData | null;
   setUser: Dispatch<SetStateAction<UserData | null>>;
   accessToken: string | null;
-  setAccessToken: Dispatch<SetStateAction<string| null>>;
+  setAccessToken: Dispatch<SetStateAction<string | null>>;
 };
 
 const initialContext: UserContextType = {
@@ -31,11 +38,11 @@ export function UserProvider({ children }: UserProviderProps) {
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const localStoreData: string | null = localStorage.getItem("Quem-tem-boca");
+    const localStoreData: string | null = localStorage.getItem('Quem-tem-boca');
 
     if (localStoreData) {
       const localData = JSON.parse(localStoreData);
-      setAccessToken(localData.accessToken ?? null)
+      setAccessToken(localData.accessToken ?? null);
 
       delete localData.accessToken;
 
