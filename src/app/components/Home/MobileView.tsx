@@ -1,12 +1,12 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { Box, Fab } from "@mui/material";
-import { EastRounded, KeyboardBackspaceRounded } from "@mui/icons-material";
+import { Dispatch, SetStateAction, useState } from 'react';
+import { Box, Fab } from '@mui/material';
+import { EastRounded, KeyboardBackspaceRounded } from '@mui/icons-material';
 
-import { Form } from "@/app/page";
-import styles from "@/app/page.module.css";
-import Logo from "./Logo";
-import ChangeFormButton from "./ChangeFormButton";
-import Forms from "./forms/Forms";
+import { Form } from '@/app/page';
+import styles from '@/app/page.module.css';
+import Logo from '../Logo';
+import ChangeFormButton from './ChangeFormButton';
+import Forms from './forms/Forms';
 
 interface MobileViewProps {
   currentForm: Form;
@@ -46,15 +46,9 @@ const MobileView = ({ currentForm, setCurrentForm }: MobileViewProps) => {
               <KeyboardBackspaceRounded sx={{ mr: 1 }} />
               Voltar
             </Fab>
-            <ChangeFormButton
-              currentForm={currentForm}
-              setCurrentForm={setCurrentForm}
-            />
+            <ChangeFormButton currentForm={currentForm} setCurrentForm={setCurrentForm} />
           </Box>
-          <Forms
-            currentForm={currentForm}
-            setCurrentForm={setCurrentForm}
-          />
+          <Forms currentForm={currentForm} setCurrentForm={setCurrentForm} />
         </main>
       )}
     </>

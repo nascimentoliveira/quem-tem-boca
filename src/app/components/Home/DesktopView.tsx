@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 
 import { Form } from "@/app/page";
 import styles from "@/app/page.module.css";
-import Logo from "./Logo";
+import Logo from "../Logo";
 import ChangeFormButton from "./ChangeFormButton";
 import Forms from "./forms/Forms";
 

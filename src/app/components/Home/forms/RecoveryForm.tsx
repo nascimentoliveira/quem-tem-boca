@@ -44,9 +44,9 @@ const RecoveryForm = ({ setCurrentForm }: RecoveryFormProps) => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Não foi possivel entrar!",
+        text: error.response?.data.message,
         footer: `<p>Por que tenho esse problema? <br /> 
-          ${error.response?.data.message}</p>`,
+          Não foi possível seguir com o procedimento de recuparação.</p>`,
       });
       console.error("Error registering user:", error);
       setLoading(false);

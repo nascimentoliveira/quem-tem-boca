@@ -67,9 +67,9 @@ const JoinForm = ({ setCurrentForm }: JoinFormProps) => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Não foi possivel cadastrar um novo usuário!",
+        text: error.response?.data.message,
         footer: `<p>Por que tenho esse problema? <br /> 
-          ${error.response?.data.message}</p>`,
+        Não foi possivel cadastrar um novo usuário.</p>`,
       });
       console.error("Error registering user:", error);
       setLoading(false);
