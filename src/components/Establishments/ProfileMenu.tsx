@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Menu, MenuItem, Stack, Typography } from '@mui/material';
 import { IoExitOutline } from 'react-icons/io5';
 
-import theme from '@/app/themes/theme';
+import theme from '@/themes/theme';
 import { useRouter } from 'next/navigation';
 
 interface ProfileMenuProps {

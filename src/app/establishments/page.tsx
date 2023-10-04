@@ -1,12 +1,12 @@
 'use client';
 import { Box, Container, Grid } from '@mui/material';
 
-import theme, { ThemeWrapper } from '../themes/theme';
-import EstablishmentCard from '../components/Establishments/EstablishmentCard';
-import Bar from '../components/Establishments/AppBar';
-import MobileBar from '../components/Establishments/MobileBar';
-import EstablishmentMenu from '../types/EstablishmentMenu';
-import mockData from '../utils/mockData';
+import theme, { ThemeWrapper } from '../../themes/theme';
+import EstablishmentCard from '../../components/Establishments/EstablishmentCard';
+import Bar from '../../components/Establishments/AppBar';
+import MobileBar from '../../components/Establishments/MobileBar';
+import EstablishmentMenu from '../../types/EstablishmentMenu';
+import mockData from '../../utils/mockData';
 
 const Establishments = () => {
   const establishments: EstablishmentMenu[] = mockData;

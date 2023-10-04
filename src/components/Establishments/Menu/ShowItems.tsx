@@ -2,9 +2,9 @@ import { MutableRefObject, useRef } from 'react';
 import { Box, IconButton, Typography, styled } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
-import ItemCard from '@/app/components/Establishments/Menu/ItemCard';
-import Dish from '@/app/types/Dish';
-import Drink from '@/app/types/Drink';
+import ItemCard from '@/components/Establishments/Menu/ItemCard';
+import Dish from '@/types/Dish';
+import Drink from '@/types/Drink';
 
 interface ShowItemsProps {
   name: string;

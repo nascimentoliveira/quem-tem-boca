@@ -1,22 +1,35 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
-import Dish from '@/app/types/Dish';
-import Drink from '@/app/types/Drink';
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Typography,
+  styled,
+} from '@mui/material';
+
+import Dish from '@/types/Dish';
+import Drink from '@/types/Drink';
 
 interface MenuItemCardProps {
   item: Dish | Drink;
 }
 
 const MenuItemCard = ({ item }: MenuItemCardProps) => {
+  const formatPrice = (cents: number): string => {
+    return 'R$ ' + `${(cents / 100).toFixed(2)}`.replace('.', ',');
+  };
+
+  const StyledBox = styled(Box)(() => ({
+    flexShrink: 0,
+    flexGrow: 1,
+    height: '100%',
+    minHeight: 190,
+    width: 220,
+  }));
+
   return (
-    <Box
-      sx={{
-        flexShrink: 0,
-        flexGrow: 1,
-        height: '100%',
-        minHeight: 190,
-        width: 220,
-      }}
-    >
+    <StyledBox>
       <Card elevation={5} sx={{ height: '100%' }}>
         <CardActionArea
           sx={{
@@ -47,14 +60,14 @@ const MenuItemCard = ({ item }: MenuItemCardProps) => {
                   color="secondary"
                   sx={{ width: 'min-content', whiteSpace: 'nowrap' }}
                 >
-                  R$ {(item.price / 100).toFixed(2).replace('.', ',')}
+                  {formatPrice(item.price)}
                 </Typography>
               </Box>
             </Box>
           </CardContent>
         </CardActionArea>
       </Card>
-    </Box>
+    </StyledBox>
   );
 };
 

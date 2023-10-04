@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Menu, MenuItem, Stack, Typography } from '@mui/material';
 import { FaSearchLocation } from 'react-icons/fa';
 
-import theme from '@/app/themes/theme';
+import theme from '@/themes/theme';
 
 interface LocationMenuProps {
   anchorEl: HTMLElement | null;

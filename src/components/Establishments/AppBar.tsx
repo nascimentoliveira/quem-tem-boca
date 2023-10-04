@@ -24,19 +24,6 @@ const Bar = () => {
     },
   }));
 
-  const StyledLogoBox = styled(Box)(({ theme }) => ({
-    height: 64,
-    display: 'flex',
-    alignItems: 'center',
-    '& img': {
-      height: '80%',
-      width: 'auto',
-    },
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
-  }));
-
   const StyledGrowBox = styled(Box)(({ theme }) => ({
     flexGrow: 1,
     [theme.breakpoints.down('sm')]: {
@@ -48,9 +35,7 @@ const Bar = () => {
     <StyledAppBar>
       <Toolbar sx={{ width: '100vw' }}>
         <StyledGrowBox />
-        <StyledLogoBox>
-          <Logo />
-        </StyledLogoBox>
+        <Logo width={150} height={64} />
         <StyledGrowBox />
         <Search />
         <StyledGrowBox />

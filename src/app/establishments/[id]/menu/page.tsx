@@ -1,13 +1,13 @@
 'use client';
 import { Box, Container, styled } from '@mui/material';
 
-import theme, { ThemeWrapper } from '@/app/themes/theme';
-import Bar from '@/app/components/Establishments/AppBar';
-import MobileBar from '@/app/components/Establishments/MobileBar';
-import EstablishmentHeader from '@/app/components/Establishments/Menu/EstablishmentHeader';
-import ShowItems from '@/app/components/Establishments/Menu/ShowItems';
-import EstablishmentMenu from '@/app/types/EstablishmentMenu';
-import mockData from '@/app/utils/mockData';
+import theme, { ThemeWrapper } from '@/themes/theme';
+import Bar from '@/components/Establishments/AppBar';
+import MobileBar from '@/components/Establishments/MobileBar';
+import EstablishmentHeader from '@/components/Establishments/Menu/EstablishmentHeader';
+import ShowItems from '@/components/Establishments/Menu/ShowItems';
+import EstablishmentMenu from '@/types/EstablishmentMenu';
+import mockData from '@/utils/mockData';
 
 const Menu = ({ params }: { params: { id: string } }) => {
   const { dishes, drinks, ...establishment }: EstablishmentMenu = mockData[Number(params.id) - 1];

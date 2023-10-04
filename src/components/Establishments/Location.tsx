@@ -1,7 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import { IoChevronDown, IoLocationOutline } from 'react-icons/io5';
 
-import theme from '@/app/themes/theme';
+import theme from '@/themes/theme';
 
 const Location = () => {
   return (

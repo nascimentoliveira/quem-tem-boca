@@ -14,8 +14,8 @@ import {
 import { BsPhoneVibrate, BsClockFill } from 'react-icons/bs';
 import { RiMapPinRangeFill } from 'react-icons/ri';
 
-import theme from '@/app/themes/theme';
-import Establishment from '@/app/types/Establishment';
+import theme from '@/themes/theme';
+import Establishment from '@/types/Establishment';
 
 interface EstablishmentHeaderProps {
   establishment: Establishment;
@@ -56,7 +56,7 @@ const EstablishmentHeader = ({ establishment }: EstablishmentHeaderProps) => {
     <Box sx={{ height: 'min-content', zIndex: 2 }}>
       <Card elevation={5} sx={{ flexGrow: 1, width: '100%' }}>
         <CardActionArea>
-          <Box sx={{ height: '80px' }}>
+          <Box sx={{ height: 80 }}>
             <CardMedia
               component="div"
               sx={{ height: '100%', width: 'auto', objectFit: 'cover' }}

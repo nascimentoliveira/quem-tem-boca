@@ -14,8 +14,8 @@ import {
   styled,
 } from '@mui/material';
 
-import theme from '@/app/themes/theme';
-import Establishment from '@/app/types/Establishment';
+import theme from '@/themes/theme';
+import Establishment from '@/types/Establishment';
 
 interface EstablishmentCardProps {
   establishment: Establishment;
@@ -26,6 +26,10 @@ const EstablishmentCard = ({ establishment }: EstablishmentCardProps) => {
 
   const handleCardClick = (id: number) => {
     router.push(`/establishments/${id}/menu`);
+  };
+
+  const formatPrice = (cents: number): string => {
+    return 'R$ ' + `${(cents / 100).toFixed(2)}`.replace('.', ',');
   };
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -110,9 +114,7 @@ const EstablishmentCard = ({ establishment }: EstablishmentCardProps) => {
               <Typography variant="subtitle2">
                 <IoTicketOutline color={theme.palette.secondary.main} />
               </Typography>
-              <Typography variant="subtitle2">
-                R$ {(establishment.minTicket / 100).toFixed(2).replace('.', ',')}
-              </Typography>
+              <Typography variant="subtitle2">{formatPrice(establishment.minTicket)}</Typography>
             </Stack>
           </Stack>
         </CardContent>
