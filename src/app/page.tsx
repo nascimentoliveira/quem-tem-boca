@@ -1,44 +1,29 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useTheme } from '@mui/material/styles';
+import { useContext, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { UserProvider } from '@/app/contexts/userContext';
-import MobileView from './components/Home/MobileView';
-import DesktopView from './components/Home/DesktopView';
-import { ThemeWrapper } from './themes/theme';
-
-export type Form = 'login' | 'join' | 'recovery';
+import { UserContext } from '@/contexts/userContext';
+import api from '../utils/api';
+import LoadingBackDrop from '../components/LoadingBackdrop';
 
 const Home = () => {
-  const theme = useTheme();
-  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
-  const [currentForm, setCurrentForm] = useState<Form>('login');
+  const router = useRouter();
+  const { accessToken } = useContext(UserContext);
+
+  const checkApiConnection = async () => {
+    api.get('/health');
+  };
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= theme.breakpoints.values.md);
-    };
+    checkApiConnection();
+    if (accessToken) {
+      router.push('/establishments');
+    } else {
+      router.push('/login?origin=home');
+    }
+  }, [accessToken, router]);
 
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [theme.breakpoints]);
-
-  return (
-    <ThemeWrapper>
-      <UserProvider>
-        {isSmallScreen ? (
-          <MobileView currentForm={currentForm} setCurrentForm={setCurrentForm} />
-        ) : (
-          <DesktopView currentForm={currentForm} setCurrentForm={setCurrentForm} />
-        )}
-      </UserProvider>
-    </ThemeWrapper>
-  );
+  return <LoadingBackDrop />;
 };
 
 export default Home;
