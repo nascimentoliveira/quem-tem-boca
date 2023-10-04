@@ -193,13 +193,13 @@ const LoginForm = () => {
           </StyledSendButton>
           <Button
             variant="text"
+            color="primary"
             disabled={loading}
             onClick={handleChangeForm}
             sx={{
               fontFamily: 'Quicksand, Arial, sans-serif',
-              color: 'white',
               fontWeight: 'bold',
-              fontSize: '16px',
+              fontSize: 16,
               justifyContent: 'start',
               width: 'max-content',
               textTransform: 'none',

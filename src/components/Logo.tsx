@@ -3,9 +3,7 @@ import Image from 'next/image';
 
 const Logo = (props: BoxProps) => {
   const StyledLogoBox = styled(Box)(() => ({
-    height: 'min-content',
     display: 'flex',
-    alignItems: 'center',
     padding: 5,
     '& img': {
       width: 'auto',
