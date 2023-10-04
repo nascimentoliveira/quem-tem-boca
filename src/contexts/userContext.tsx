@@ -7,10 +7,6 @@ import React, {
   SetStateAction,
 } from 'react';
 
-type UserProviderProps = {
-  children: ReactNode;
-};
-
 type UserData = {
   id: number;
   email: string;
@@ -33,7 +29,7 @@ const initialContext: UserContextType = {
 
 export const UserContext = createContext<UserContextType>(initialContext);
 
-export function UserProvider({ children }: UserProviderProps) {
+export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserData | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
