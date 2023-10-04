@@ -15,6 +15,7 @@ import {
   InputLabel,
   Stack,
   Switch,
+  Typography,
 } from '@mui/material';
 
 import { UserContext } from '@/contexts/userContext';
@@ -205,7 +206,7 @@ const LoginForm = () => {
               textTransform: 'none',
             }}
           >
-            Esqueci minha senha
+            <Typography color="white">Esqueci minha senha</Typography>
           </Button>
         </Stack>
       </form>
