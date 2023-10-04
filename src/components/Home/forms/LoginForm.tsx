@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Visibility, VisibilityOff, Send } from '@mui/icons-material';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import Swal from 'sweetalert2';
 import {
   Button,
   CircularProgress,
@@ -16,21 +15,23 @@ import {
   Stack,
   Switch,
   Typography,
+  styled,
 } from '@mui/material';
 
 import { UserContext } from '@/contexts/userContext';
-import { FormLogin, LoginBody } from '@/types/Login';
-import api from '@/utils/api';
+import { FormLogin } from '@/types/Login';
 import StyledTextField from './StyledTextField';
 import StyledFormControl from './StyledFormControl';
 import StyledSendButton from './StyledSendButton';
+import theme from '@/themes/theme';
+import useLogin from '@/hooks/useLogin';
 
 const LoginForm = () => {
   const router = useRouter();
-  const { accessToken, setAccessToken, setUser } = useContext(UserContext);
-  const [keepLogged, setKeepLogged] = useState<boolean>(true);
+  const { accessToken } = useContext(UserContext);
+  const [rememberMe, setRememberMe] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { login, loading } = useLogin();
   const methods = useForm({
     defaultValues: {
       email: '',
@@ -49,44 +50,8 @@ const LoginForm = () => {
     }
   }, [accessToken, router]);
 
-  function formatRequestBody(data: FormLogin): LoginBody {
-    return {
-      email: data.email.toLowerCase(),
-      password: data.password,
-    };
-  }
-
-  const onSubmit = async (data: FormLogin) => {
-    try {
-      setLoading(true);
-      const body = formatRequestBody(data);
-      const response = await api.post('/auth', body);
-      setLoading(false);
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Acesso permitido',
-        showConfirmButton: false,
-        timer: 1200,
-      });
-      if (keepLogged) {
-        localStorage.setItem('Quem-tem-boca', JSON.stringify(response.data));
-      }
-      setAccessToken(response.data.token);
-      delete response.data.token;
-      setUser(response.data);
-      router.push('/establishments');
-    } catch (error: any) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error.response?.data.message,
-        footer: `<p>Por que tenho esse problema? <br />
-          Não foi possivel entrar.</p>`,
-      });
-      console.error('Error registering user:', error);
-      setLoading(false);
-    }
+  const onSubmit = (data: FormLogin) => {
+    login(data, rememberMe);
   };
 
   const handleShowPassword = () => {
@@ -100,6 +65,22 @@ const LoginForm = () => {
   const handleChangeForm = () => {
     router.push('/recovery');
   };
+
+  const handleToggleRemembermeClick = () => {
+    setRememberMe(!rememberMe);
+  };
+
+  const StyledRecoveryButton = styled(Button)({
+    fontFamily: 'Quicksand, Arial, sans-serif',
+    fontWeight: 'bold',
+    fontSize: 16,
+    justifyContent: 'start',
+    width: 'max-content',
+    textTransform: 'none',
+    '&.Mui-disabled': {
+      color: theme.palette.primary.contrastText,
+    },
+  });
 
   return (
     <FormProvider {...methods}>
@@ -175,11 +156,15 @@ const LoginForm = () => {
               control={
                 <Switch
                   color="secondary"
-                  checked={keepLogged}
-                  onChange={() => setKeepLogged(!keepLogged)}
+                  checked={rememberMe}
+                  onChange={handleToggleRemembermeClick}
                 />
               }
-              label={<Typography>Lembre de mim</Typography>}
+              label={
+                <Typography color="white" variant="subtitle1">
+                  Manter conectado
+                </Typography>
+              }
             />
           </FormGroup>
           <StyledSendButton
@@ -192,22 +177,14 @@ const LoginForm = () => {
           >
             {loading ? 'Entrando...' : 'Entrar'}
           </StyledSendButton>
-          <Button
+          <StyledRecoveryButton
             variant="text"
             color="primary"
             disabled={loading}
             onClick={handleChangeForm}
-            sx={{
-              fontFamily: 'Quicksand, Arial, sans-serif',
-              fontWeight: 'bold',
-              fontSize: 16,
-              justifyContent: 'start',
-              width: 'max-content',
-              textTransform: 'none',
-            }}
           >
             Esqueci minha senha
-          </Button>
+          </StyledRecoveryButton>
         </Stack>
       </form>
     </FormProvider>
