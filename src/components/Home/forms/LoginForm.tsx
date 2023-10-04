@@ -179,7 +179,7 @@ const LoginForm = () => {
                   onChange={() => setKeepLogged(!keepLogged)}
                 />
               }
-              label="Lembre de mim"
+              label={<Typography>Lembre de mim</Typography>}
             />
           </FormGroup>
           <StyledSendButton
@@ -206,7 +206,7 @@ const LoginForm = () => {
               textTransform: 'none',
             }}
           >
-            <Typography color="white">Esqueci minha senha</Typography>
+            Esqueci minha senha
           </Button>
         </Stack>
       </form>
