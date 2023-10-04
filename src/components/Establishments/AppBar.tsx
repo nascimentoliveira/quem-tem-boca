@@ -35,7 +35,7 @@ const Bar = () => {
     <StyledAppBar>
       <Toolbar sx={{ width: '100vw' }}>
         <StyledGrowBox />
-        <Logo width={150} height={64} />
+        <Logo width={150} height={64} sx={{ display: { xs: 'none', sm: 'flex' } }} />
         <StyledGrowBox />
         <Search />
         <StyledGrowBox />
