@@ -1,23 +1,17 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { Button, CircularProgress, Stack, TextField, styled } from '@mui/material';
 import { Send } from '@mui/icons-material';
 import Swal from 'sweetalert2';
+import { CircularProgress, Stack } from '@mui/material';
 
-import styles from '@/app/page.module.css';
-import { Form } from '@/app/page';
-import api from '@/app/utils/api';
-import theme from '@/app/themes/theme';
+import { FormRecovery, RecoveryBody } from '@/types/Recovery';
+import api from '@/utils/api';
+import StyledTextField from './StyledTextField';
+import StyledSendButton from './StyledSendButton';
 
-interface RecoveryFormProps {
-  setCurrentForm: Dispatch<SetStateAction<Form>>;
-}
-
-const RecoveryForm = ({ setCurrentForm }: RecoveryFormProps) => {
-  type FormRecovery = {
-    email: string;
-  };
-
+const RecoveryForm = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const methods = useForm({
     defaultValues: {
@@ -30,12 +24,16 @@ const RecoveryForm = ({ setCurrentForm }: RecoveryFormProps) => {
     formState: { errors },
   } = methods;
 
+  function formatRequestBody(data: FormRecovery): RecoveryBody {
+    return {
+      email: data.email.toLowerCase(),
+    };
+  }
+
   const onSubmit = async (data: FormRecovery) => {
     try {
       setLoading(true);
-      const body = {
-        email: data.email.toLowerCase(),
-      };
+      const body = formatRequestBody(data);
       const response = await api.post('/auth/recovery', body);
       setLoading(false);
       Swal.fire({
@@ -43,7 +41,7 @@ const RecoveryForm = ({ setCurrentForm }: RecoveryFormProps) => {
         title: 'Vamos resolver isso!',
         text: response.data.message,
       });
-      setCurrentForm('login');
+      router.push('/login');
     } catch (error: any) {
       Swal.fire({
         icon: 'error',
@@ -57,16 +55,10 @@ const RecoveryForm = ({ setCurrentForm }: RecoveryFormProps) => {
     }
   };
 
-  const StyledTextField = styled(TextField)({
-    '& label.Mui-focused': {
-      color: theme.palette.primary.contrastText,
-    },
-  });
-
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <Stack spacing={1} className={styles.form}>
+        <Stack spacing={1} width="100%">
           <Controller
             name="email"
             control={control}
@@ -88,30 +80,21 @@ const RecoveryForm = ({ setCurrentForm }: RecoveryFormProps) => {
                 size="small"
                 fullWidth
                 disabled={loading}
-                className={styles.input}
                 error={!!errors.email}
                 helperText={errors.email ? `${errors.email.message}` : ''}
               />
             )}
           />
-          <Button
+          <StyledSendButton
             type="submit"
             variant="contained"
             color="secondary"
             fullWidth
             disabled={loading}
             startIcon={loading ? <CircularProgress color="inherit" size={25} /> : <Send />}
-            sx={{
-              height: '48px',
-              fontSize: '18px',
-              textTransform: 'none',
-              '&.Mui-disabled': {
-                backgroundColor: '#ff5476',
-              },
-            }}
           >
             {loading ? 'Enviando...' : 'Recuperar senha'}
-          </Button>
+          </StyledSendButton>
         </Stack>
       </form>
     </FormProvider>

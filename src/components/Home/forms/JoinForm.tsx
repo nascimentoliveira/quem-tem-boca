@@ -1,95 +1,73 @@
-'use client';
-import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
-import { Visibility, VisibilityOff, Send } from '@mui/icons-material';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Visibility, VisibilityOff, Send } from '@mui/icons-material';
+import { useForm, Controller, FormProvider } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import {
-  Button,
   CircularProgress,
   FilledInput,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
   FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
   Stack,
-  Switch,
-  TextField,
-  styled,
 } from '@mui/material';
 
-import { UserContext } from '@/app/contexts/userContext';
-import { Form } from '@/app/page';
-import styles from '@/app/page.module.css';
-import api from '@/app/utils/api';
-import theme from '@/app/themes/theme';
+import { FormJoin, JoinBody } from '@/types/Join';
+import api from '@/utils/api';
+import StyledTextField from './StyledTextField';
+import StyledFormControl from './StyledFormControl';
+import StyledSendButton from './StyledSendButton';
 
-interface LoginFormProps {
-  setCurrentForm: Dispatch<SetStateAction<Form>>;
-}
-
-const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
-  type FormLogin = {
-    email: string;
-    password: string;
-  };
-
-  const [keepLogged, setKeepLogged] = useState<boolean>(true);
+const JoinForm = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const methods = useForm({
     defaultValues: {
       email: '',
+      username: '',
       password: '',
+      confirmPassword: '',
     },
   });
   const {
     handleSubmit,
     control,
     formState: { errors },
+    watch,
   } = methods;
-  const { accessToken, setAccessToken, setUser } = useContext(UserContext);
-  const router = useRouter();
+  const password = watch('password', '');
 
-  useEffect(() => {
-    if (accessToken) {
-      router.push('/establishments');
-    }
-  }, [accessToken, router]);
+  function formatRequestBody(data: FormJoin): JoinBody {
+    return {
+      email: data.email.toLowerCase(),
+      username: data.username.toLowerCase().replace(/(?:^|\s)\w/g, (match) => match.toUpperCase()),
+      password: data.password,
+    };
+  }
 
-  const onSubmit = async (data: FormLogin) => {
+  const onSubmit = async (data: FormJoin) => {
     try {
       setLoading(true);
-      const body = {
-        email: data.email.toLowerCase(),
-        password: data.password,
-      };
-      const response = await api.post('/auth', body);
+      const body = formatRequestBody(data);
+      await api.post('/users', body);
       setLoading(false);
       Swal.fire({
         position: 'center',
         icon: 'success',
-        title: 'Acesso permitido',
+        title: 'Cadastrado com sucesso! Por favor faça login.',
         showConfirmButton: false,
         timer: 1200,
       });
-      if (keepLogged) {
-        localStorage.setItem('Quem-tem-boca', JSON.stringify(response.data));
-      }
-      setAccessToken(response.data.token);
-      delete response.data.token;
-      setUser(response.data);
-      router.push('/establishments');
+      router.push('/login');
     } catch (error: any) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: error.response?.data.message,
         footer: `<p>Por que tenho esse problema? <br />
-          Não foi possivel entrar.</p>`,
+        Não foi possivel cadastrar um novo usuário.</p>`,
       });
       console.error('Error registering user:', error);
       setLoading(false);
@@ -104,16 +82,10 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
     event.preventDefault();
   };
 
-  const StyledTextField = styled(TextField)({
-    '& label.Mui-focused': {
-      color: theme.palette.primary.contrastText,
-    },
-  });
-
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <Stack spacing={1} className={styles.form}>
+        <Stack spacing={1} width="100%">
           <Controller
             name="email"
             control={control}
@@ -134,9 +106,33 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
                 size="small"
                 fullWidth
                 disabled={loading}
-                className={styles.input}
                 error={!!errors.email}
                 helperText={errors.email ? `${errors.email.message}` : ''}
+              />
+            )}
+          />
+          <Controller
+            name="username"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: 'Campo nome é obrigatório',
+              minLength: {
+                value: 3,
+                message: 'Nome deve ter pelo menos 3 caracteres',
+              },
+            }}
+            render={({ field }) => (
+              <StyledTextField
+                {...field}
+                type="text"
+                label="nome"
+                variant="filled"
+                size="small"
+                fullWidth
+                disabled={loading}
+                error={!!errors.username}
+                helperText={errors.username ? `${errors.username.message}` : ''}
               />
             )}
           />
@@ -146,27 +142,24 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
             defaultValue=""
             rules={{
               required: 'Campo senha é obrigatório',
+              pattern: {
+                value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+                message:
+                  'A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.',
+              },
             }}
             render={({ field }) => (
-              <FormControl
+              <StyledFormControl
                 {...field}
                 variant="filled"
-                color="primary"
                 size="small"
                 fullWidth
                 required
                 disabled={loading}
-                className={styles.input}
                 error={!!errors.password}
-                sx={{
-                  '& label.Mui-focused': {
-                    color: theme.palette.primary.contrastText,
-                  },
-                }}
               >
-                <InputLabel htmlFor="filled-password">senha</InputLabel>
+                <InputLabel>senha</InputLabel>
                 <FilledInput
-                  id="filled-password"
                   type={showPassword ? 'text' : 'password'}
                   endAdornment={
                     <InputAdornment position="end">
@@ -182,64 +175,47 @@ const LoginForm = ({ setCurrentForm }: LoginFormProps) => {
                   }
                 />
                 {!!errors.password && (
-                  <FormHelperText id="filled-password">
-                    {`${errors.password.message}`}
-                  </FormHelperText>
+                  <FormHelperText>{`${errors.password.message}`}</FormHelperText>
                 )}
-              </FormControl>
+              </StyledFormControl>
             )}
           />
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Switch
-                  defaultChecked
-                  color="secondary"
-                  checked={keepLogged}
-                  onChange={() => setKeepLogged(!keepLogged)}
-                />
-              }
-              label="Lembre de mim"
-            />
-          </FormGroup>
-          <Button
+          <Controller
+            name="confirmPassword"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: 'Campo repita a senha é obrigatório',
+              validate: (value) => value === password || 'As senhas não coincidem',
+            }}
+            render={({ field }) => (
+              <StyledTextField
+                {...field}
+                type="password"
+                label="Repita a senha"
+                variant="filled"
+                size="small"
+                fullWidth
+                disabled={loading}
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword ? `${errors.confirmPassword.message}` : ''}
+              />
+            )}
+          />
+          <StyledSendButton
             type="submit"
             variant="contained"
             color="secondary"
             fullWidth
             disabled={loading}
             startIcon={loading ? <CircularProgress color="inherit" size={25} /> : <Send />}
-            sx={{
-              height: '48px',
-              fontSize: '18px',
-              textTransform: 'none',
-              '&.Mui-disabled': {
-                backgroundColor: '#ff5476',
-              },
-            }}
           >
-            {loading ? 'Entrando...' : 'Entrar'}
-          </Button>
-          <Button
-            variant="text"
-            disabled={loading}
-            sx={{
-              fontFamily: 'Quicksand, Arial, sans-serif',
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: '16px',
-              justifyContent: 'start',
-              width: 'max-content',
-              textTransform: 'none',
-            }}
-            onClick={() => setCurrentForm('recovery')}
-          >
-            Esqueci minha senha
-          </Button>
+            {loading ? 'Cadastrando...' : 'Cadastrar'}
+          </StyledSendButton>
         </Stack>
       </form>
     </FormProvider>
   );
 };
 
-export default LoginForm;
+export default JoinForm;
