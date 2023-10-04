@@ -11,18 +11,19 @@ const FormContainer = ({ children }: FormContainerProps) => {
   const StyledFormStack = styled(Stack)(({ theme }) => ({
     background: 'linear-gradient(to left, #000000 0%, #000000e6 40%, #00000000 100%)',
     height: '100%',
+    minHeight: 700,
     width: '30vw',
-    minWidth: '300px',
+    minWidth: 400,
     position: 'absolute',
-    top: '0',
     right: '0',
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.down('md')]: {
-      background: 'linear-gradient(to top, #000000 0%, #000000e6 10%, #00000000 50%)',
+      background: 'linear-gradient(to top, #000000 0%, #000000e6 7%, #00000000 40%)',
       width: '100%',
+      height: '100%',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-end',
     },
   }));
 
@@ -33,7 +34,7 @@ const FormContainer = ({ children }: FormContainerProps) => {
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     [theme.breakpoints.down('md')]: {
-      maxWidth: 350,
+      maxWidth: 400,
       width: '100%',
     },
   }));

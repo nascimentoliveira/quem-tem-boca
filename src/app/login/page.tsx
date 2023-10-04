@@ -7,6 +7,7 @@ import DesktopView from '@/components/Home/DesktopView';
 import MobileView from '@/components/Home/MobileView';
 import ChangeFormButton from '@/components/Home/ChangeFormButton';
 import LoginForm from '@/components/Home/forms/LoginForm';
+import StyledContainer from '@/components/Home/StyledContainer';
 
 const Login = () => {
   const isFirstHalf = useSearchParams().get('origin') === 'home';
@@ -20,8 +21,10 @@ const Login = () => {
   return (
     <ThemeWrapper>
       <UserProvider>
-        <DesktopView button={button} form={form} />
-        <MobileView button={button} form={form} isFirstHalf={isFirstHalf} />
+        <StyledContainer>
+          <DesktopView button={button} form={form} />
+          <MobileView button={button} form={form} isFirstHalf={isFirstHalf} />
+        </StyledContainer>
       </UserProvider>
     </ThemeWrapper>
   );

@@ -15,7 +15,6 @@ import {
   InputLabel,
   Stack,
   Switch,
-  styled,
 } from '@mui/material';
 
 import { UserContext } from '@/contexts/userContext';
@@ -100,16 +99,6 @@ const LoginForm = () => {
   const handleChangeForm = () => {
     router.push('/recovery');
   };
-
-  const StyledButton = styled(Button)({
-    fontFamily: 'Quicksand, Arial, sans-serif',
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: '16px',
-    justifyContent: 'start',
-    width: 'max-content',
-    textTransform: 'none',
-  });
 
   return (
     <FormProvider {...methods}>
@@ -202,9 +191,22 @@ const LoginForm = () => {
           >
             {loading ? 'Entrando...' : 'Entrar'}
           </StyledSendButton>
-          <StyledButton variant="text" disabled={loading} onClick={handleChangeForm}>
+          <Button
+            variant="text"
+            disabled={loading}
+            onClick={handleChangeForm}
+            sx={{
+              fontFamily: 'Quicksand, Arial, sans-serif',
+              color: 'white',
+              fontWeight: 'bold',
+              fontSize: '16px',
+              justifyContent: 'start',
+              width: 'max-content',
+              textTransform: 'none',
+            }}
+          >
             Esqueci minha senha
-          </StyledButton>
+          </Button>
         </Stack>
       </form>
     </FormProvider>

@@ -4,6 +4,7 @@ import DesktopView from '@/components/Home/DesktopView';
 import MobileView from '@/components/Home/MobileView';
 import ChangeFormButton from '@/components/Home/ChangeFormButton';
 import RecoveryForm from '@/components/Home/forms/RecoveryForm';
+import StyledContainer from '@/components/Home/StyledContainer';
 
 const Recovery = () => {
   const button = (
@@ -14,8 +15,10 @@ const Recovery = () => {
 
   return (
     <ThemeWrapper>
-      <DesktopView button={button} form={form} />
-      <MobileView button={button} form={form} isFirstHalf={false} />
+      <StyledContainer>
+        <DesktopView button={button} form={form} />
+        <MobileView button={button} form={form} isFirstHalf={false} />
+      </StyledContainer>
     </ThemeWrapper>
   );
 };

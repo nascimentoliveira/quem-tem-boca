@@ -16,21 +16,10 @@ interface MobileViewProps {
 const MobileView = ({ button, form, isFirstHalf }: MobileViewProps) => {
   const [showFirstHalf, setShowFirstHalf] = useState(isFirstHalf);
 
-  const StyledContainer = styled('main')(({ theme }) => ({
-    '& .mobile': {
-      display: 'none',
-    },
-    [theme.breakpoints.down('md')]: {
-      '& .mobile': {
-        display: 'flex',
-      },
-    },
-  }));
-
   const StyledBottomBox = styled(Box)(() => ({
-    background: 'linear-gradient(to top, #000000 0%, #000000e6 10%, #00000000 50%)',
-    height: '100%',
+    background: 'linear-gradient(to top, #000000 0%, #000000e6 20%, #00000000 60%)',
     width: '100%',
+    height: '40vh',
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
@@ -56,34 +45,32 @@ const MobileView = ({ button, form, isFirstHalf }: MobileViewProps) => {
   };
 
   return (
-    <StyledContainer>
-      <StyledMainBox className="mobile">
-        {showFirstHalf ? (
-          <>
-            <HomeHeader showFirstHalf={showFirstHalf}>
-              <Logo height="auto" width="45%" minWidth={250} />
-            </HomeHeader>
-            <StyledBottomBox>
-              <StyledButton color="secondary" variant="extended" onClick={handleClickNext}>
-                Começar
-                <EastRounded sx={{ ml: 1 }} />
-              </StyledButton>
-            </StyledBottomBox>
-          </>
-        ) : (
-          <>
-            <HomeHeader>
-              <StyledButton color="secondary" variant="extended" onClick={handleClickReturn}>
-                <KeyboardBackspaceRounded sx={{ mr: 1 }} />
-                Voltar
-              </StyledButton>
-              {button}
-            </HomeHeader>
-            <FormContainer>{form}</FormContainer>
-          </>
-        )}
-      </StyledMainBox>
-    </StyledContainer>
+    <StyledMainBox className="mobile">
+      {showFirstHalf ? (
+        <>
+          <HomeHeader showFirstHalf={showFirstHalf}>
+            <Logo height="auto" width="45%" minWidth={250} />
+          </HomeHeader>
+          <StyledBottomBox>
+            <StyledButton color="secondary" variant="extended" onClick={handleClickNext}>
+              Começar
+              <EastRounded sx={{ ml: 1 }} />
+            </StyledButton>
+          </StyledBottomBox>
+        </>
+      ) : (
+        <>
+          <HomeHeader>
+            <StyledButton color="secondary" variant="extended" onClick={handleClickReturn}>
+              <KeyboardBackspaceRounded sx={{ mr: 1 }} />
+              Voltar
+            </StyledButton>
+            {button}
+          </HomeHeader>
+          <FormContainer>{form}</FormContainer>
+        </>
+      )}
+    </StyledMainBox>
   );
 };
 

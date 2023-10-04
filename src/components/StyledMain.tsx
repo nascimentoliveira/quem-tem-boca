@@ -1,11 +1,12 @@
 import { Box, styled } from '@mui/material';
 
 const StyledMainBox = styled(Box)(({ theme }) => ({
-  width: '100vw',
-  height: '100vh',
-  background: 'center / cover no-repeat url("/home_background.png")',
+  width: '100%',
+  minWidth: 320,
+  height: '100%',
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'space-between',
   [theme.breakpoints.down('md')]: {
     '& .first': {
       justifyContent: 'center',
