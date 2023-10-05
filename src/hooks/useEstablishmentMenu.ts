@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 import api from '@/utils/api';
-import Establishment from '@/types/Establishment';
+import EstablishmentMenu from '@/types/EstablishmentMenu';
 
-const useEstablishment = (accessToken: string | null) => {
-  const [establishments, setEstablishments] = useState<Establishment[]>();
+const useEstablishmentMenu = (accessToken: string | null, id: number) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [establishmentMenu, setEstablishmentMenu] = useState<EstablishmentMenu>();
 
   useEffect(() => {
     const config = {
@@ -14,10 +14,10 @@ const useEstablishment = (accessToken: string | null) => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    const fetchEstablishmentsData = async () => {
+    const fetchEstablishmentsMenuData = async () => {
       try {
-        const response = await api.get('/establishments', config);
-        setEstablishments(response.data);
+        const response = await api.get(`/establishments/${id}/menu`, config);
+        setEstablishmentMenu(response.data);
         setLoading(false);
       } catch (error: any) {
         Swal.fire({
@@ -25,17 +25,17 @@ const useEstablishment = (accessToken: string | null) => {
           title: 'Oops...',
           text: error.response?.data.message,
           footer: `<p>Por que tenho esse problema? <br />
-          Não foi possivel buscar os dados dos estabelecimentos.</p>`,
+          Não foi possivel buscar o cardápio desse estabelecimentos.</p>`,
         });
         console.error('Error when searching for establishment data:', error);
         setLoading(false);
       }
     };
 
-    fetchEstablishmentsData();
-  }, [accessToken]);
+    fetchEstablishmentsMenuData();
+  }, [accessToken, id]);
 
-  return { establishments, loading };
+  return { establishmentMenu, loading };
 };
 
-export default useEstablishment;
+export default useEstablishmentMenu;

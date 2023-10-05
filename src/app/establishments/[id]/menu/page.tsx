@@ -1,16 +1,17 @@
 'use client';
 import { Box, Container, styled } from '@mui/material';
 
-import theme, { ThemeWrapper } from '@/themes/theme';
+import theme from '@/themes/theme';
 import Bar from '@/components/Establishments/AppBar';
 import MobileBar from '@/components/Establishments/MobileBar';
 import EstablishmentHeader from '@/components/Establishments/Menu/EstablishmentHeader';
 import ShowItems from '@/components/Establishments/Menu/ShowItems';
-import EstablishmentMenu from '@/types/EstablishmentMenu';
-import mockData from '@/utils/mockData';
+import useUser from '@/hooks/useUser';
+import useEstablishmentMenu from '@/hooks/useEstablishmentMenu';
 
 const Menu = ({ params }: { params: { id: string } }) => {
-  const { dishes, drinks, ...establishment }: EstablishmentMenu = mockData[Number(params.id) - 1];
+  const { accessToken } = useUser();
+  const { establishmentMenu } = useEstablishmentMenu(accessToken, Number(params.id));
 
   const StyledBox = styled(Box)(() => ({
     width: '100vw',
@@ -33,8 +34,9 @@ const Menu = ({ params }: { params: { id: string } }) => {
     backgroundColor: theme.palette.primary.main,
   }));
 
-  return (
-    <ThemeWrapper>
+  if (establishmentMenu) {
+    const { dishes, drinks, ...establishment } = establishmentMenu;
+    return (
       <StyledBox>
         <MobileBar />
         <Bar />
@@ -46,8 +48,10 @@ const Menu = ({ params }: { params: { id: string } }) => {
           </StyledContainer>
         </StyledContainer>
       </StyledBox>
-    </ThemeWrapper>
-  );
+    );
+  } else {
+    <></>;
+  }
 };
 
 export default Menu;
