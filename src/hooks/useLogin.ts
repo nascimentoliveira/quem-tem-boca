@@ -1,15 +1,15 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 
-import { UserContext } from '@/contexts/userContext';
 import { FormLogin, LoginBody } from '@/types/Login';
 import api from '@/utils/api';
+import useUser from './useUser';
 
 const useLogin = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const { setAccessToken, setUser } = useContext(UserContext);
+  const { signIn } = useUser();
 
   function formatRequestBody(data: FormLogin): LoginBody {
     return {
@@ -34,9 +34,7 @@ const useLogin = () => {
       if (rememberMe) {
         localStorage.setItem('Quem-tem-boca', JSON.stringify(response.data));
       }
-      setAccessToken(response.data.token);
-      delete response.data.token;
-      setUser(response.data);
+      signIn(response.data);
       router.push('/establishments');
     } catch (error: any) {
       Swal.fire({

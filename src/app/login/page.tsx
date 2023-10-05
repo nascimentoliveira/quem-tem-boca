@@ -1,15 +1,24 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-import { ThemeWrapper } from '@/themes/theme';
-import { UserProvider } from '@/contexts/userContext';
 import DesktopView from '@/components/Home/DesktopView';
 import MobileView from '@/components/Home/MobileView';
 import ChangeFormButton from '@/components/Home/ChangeFormButton';
 import LoginForm from '@/components/Home/forms/LoginForm';
 import StyledContainer from '@/components/Home/StyledContainer';
+import useUser from '@/hooks/useUser';
 
 const Login = () => {
+  const router = useRouter();
+  const { accessToken } = useUser();
+
+  useEffect(() => {
+    if (accessToken) {
+      router.push('/establishments');
+    }
+  }, [accessToken, router]);
+
   const isFirstHalf = useSearchParams().get('origin') === 'home';
 
   const button = (
@@ -19,14 +28,10 @@ const Login = () => {
   const form = <LoginForm />;
 
   return (
-    <ThemeWrapper>
-      <UserProvider>
-        <StyledContainer>
-          <DesktopView button={button} form={form} />
-          <MobileView button={button} form={form} isFirstHalf={isFirstHalf} />
-        </StyledContainer>
-      </UserProvider>
-    </ThemeWrapper>
+    <StyledContainer>
+      <DesktopView button={button} form={form} />
+      <MobileView button={button} form={form} isFirstHalf={isFirstHalf} />
+    </StyledContainer>
   );
 };
 

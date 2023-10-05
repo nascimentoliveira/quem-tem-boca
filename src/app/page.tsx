@@ -1,17 +1,22 @@
 'use client';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { UserContext } from '@/contexts/userContext';
 import api from '../utils/api';
 import LoadingBackDrop from '../components/LoadingBackdrop';
+import useUser from '@/hooks/useUser';
 
 const Home = () => {
   const router = useRouter();
-  const { accessToken } = useContext(UserContext);
+  const { accessToken } = useUser();
 
   const checkApiConnection = async () => {
-    api.get('/health');
+    try {
+      await api.get('/health');
+      console.log('Conexão com a API OK');
+    } catch (error) {
+      console.error('Erro ao verificar a conexão com a API');
+    }
   };
 
   useEffect(() => {

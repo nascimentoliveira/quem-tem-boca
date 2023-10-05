@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Visibility, VisibilityOff, Send } from '@mui/icons-material';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -18,7 +18,6 @@ import {
   styled,
 } from '@mui/material';
 
-import { UserContext } from '@/contexts/userContext';
 import { FormLogin } from '@/types/Login';
 import StyledTextField from './StyledTextField';
 import StyledFormControl from './StyledFormControl';
@@ -28,7 +27,6 @@ import useLogin from '@/hooks/useLogin';
 
 const LoginForm = () => {
   const router = useRouter();
-  const { accessToken } = useContext(UserContext);
   const [rememberMe, setRememberMe] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { login, loading } = useLogin();
@@ -43,12 +41,6 @@ const LoginForm = () => {
     control,
     formState: { errors },
   } = methods;
-
-  useEffect(() => {
-    if (accessToken) {
-      router.push('/establishments');
-    }
-  }, [accessToken, router]);
 
   const onSubmit = (data: FormLogin) => {
     login(data, rememberMe);

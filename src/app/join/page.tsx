@@ -1,5 +1,4 @@
 'use client';
-import { ThemeWrapper } from '@/themes/theme';
 import DesktopView from '@/components/Home/DesktopView';
 import MobileView from '@/components/Home/MobileView';
 import ChangeFormButton from '@/components/Home/ChangeFormButton';
@@ -14,12 +13,10 @@ const Join = () => {
   const form = <JoinForm />;
 
   return (
-    <ThemeWrapper>
-      <StyledContainer>
-        <DesktopView button={button} form={form} />
-        <MobileView button={button} form={form} isFirstHalf={false} />
-      </StyledContainer>
-    </ThemeWrapper>
+    <StyledContainer>
+      <DesktopView button={button} form={form} />
+      <MobileView button={button} form={form} isFirstHalf={false} />
+    </StyledContainer>
   );
 };
 
