@@ -1,4 +1,5 @@
 'use client';
+import LoadingBackDrop from '@/components/LoadingBackdrop';
 import { ReactNode, createContext, useEffect, useState } from 'react';
 
 interface UserData {
@@ -28,6 +29,7 @@ const initialContext: UserContextType = {
 export const UserContext = createContext<UserContextType>(initialContext);
 
 export function UserProvider({ children }: { children: ReactNode }) {
+  const [userDataLoaded, setUserDataLoaded] = useState(false);
   const [user, setUser] = useState<UserData | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
@@ -51,11 +53,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
       setAccessToken(accessToken);
       setUser({ id, email, username });
     }
+    setUserDataLoaded(true);
   }, [accessToken]);
 
   return (
     <UserContext.Provider value={{ user, accessToken, signIn, signOut }}>
-      {children}
+      {userDataLoaded ? children : <LoadingBackDrop />}
     </UserContext.Provider>
   );
 }
