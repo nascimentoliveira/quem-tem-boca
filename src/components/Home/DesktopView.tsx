@@ -14,7 +14,7 @@ const DesktopView = ({ button, form }: DesktopViewProps) => {
   return (
     <StyledMainBox className="desktop">
       <HomeHeader>
-        <Logo height="min-content" width="35%" minWidth={140} />
+        <Logo height="min-content" width="50%" maxWidth={450} />
         {button}
       </HomeHeader>
       <FormContainer>{form}</FormContainer>

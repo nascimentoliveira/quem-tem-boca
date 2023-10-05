@@ -49,7 +49,7 @@ const MobileView = ({ button, form, isFirstHalf }: MobileViewProps) => {
       {showFirstHalf ? (
         <>
           <HomeHeader showFirstHalf={showFirstHalf}>
-            <Logo height="auto" width="45%" minWidth={250} />
+            <Logo height="min-content" width="60%" minWidth={250} />
           </HomeHeader>
           <StyledBottomBox>
             <StyledButton color="secondary" variant="extended" onClick={handleClickNext}>

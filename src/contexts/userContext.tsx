@@ -38,6 +38,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = () => {
+    localStorage.removeItem('Quem-tem-boca');
     setUser(null);
     setAccessToken(null);
   };

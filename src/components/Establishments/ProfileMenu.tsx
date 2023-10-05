@@ -4,6 +4,7 @@ import { IoExitOutline } from 'react-icons/io5';
 
 import theme from '@/themes/theme';
 import { useRouter } from 'next/navigation';
+import useUser from '@/hooks/useUser';
 
 interface ProfileMenuProps {
   anchorEl: HTMLElement | null;
@@ -12,9 +13,10 @@ interface ProfileMenuProps {
 
 const ProfileMenu = ({ anchorEl, setAnchorEl }: ProfileMenuProps) => {
   const router = useRouter();
+  const { signOut } = useUser();
 
   const handleLogoutClick = () => {
-    localStorage.removeItem('Quem-tem-boca');
+    signOut();
     setAnchorEl(null);
     router.push('/');
   };
