@@ -13,9 +13,8 @@ const Home = () => {
   const checkApiConnection = async () => {
     try {
       await api.get('/health');
-      console.log('Conexão com a API OK');
     } catch (error) {
-      console.error('Erro ao verificar a conexão com a API');
+      console.error('Error checking connection to the API:', error);
     }
   };
 
