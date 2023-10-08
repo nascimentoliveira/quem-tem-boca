@@ -1,5 +1,5 @@
 'use client';
-import { Box, Container, styled } from '@mui/material';
+import { Box, Container, Skeleton, styled } from '@mui/material';
 
 import theme from '@/themes/theme';
 import Bar from '@/components/Establishments/AppBar';
@@ -9,7 +9,7 @@ import ShowItems from '@/components/Establishments/Menu/ShowItems';
 import useEstablishmentMenu from '@/hooks/useEstablishmentMenu';
 
 const Menu = ({ params }: { params: { id: string } }) => {
-  const { establishmentMenu } = useEstablishmentMenu(Number(params.id));
+  const { establishmentMenu, loading } = useEstablishmentMenu(Number(params.id));
 
   const StyledBox = styled(Box)(() => ({
     width: '100vw',
@@ -25,6 +25,7 @@ const Menu = ({ params }: { params: { id: string } }) => {
   const StyledContainer = styled(Container)(() => ({
     maxWidth: 'lg',
     display: 'flex',
+    width: '100%',
     flexDirection: 'column',
     justifyContent: 'space-around',
     flexGrow: 1,
@@ -32,24 +33,27 @@ const Menu = ({ params }: { params: { id: string } }) => {
     backgroundColor: theme.palette.primary.main,
   }));
 
-  if (establishmentMenu) {
-    const { dishes, drinks, ...establishment } = establishmentMenu;
-    return (
-      <StyledBox>
-        <MobileBar />
-        <Bar />
-        <StyledContainer sx={{ width: '100%', pb: { xs: '60px', sm: '20px' }, px: 0 }}>
-          <EstablishmentHeader establishment={establishment} />
-          <StyledContainer sx={{ width: { xs: '90%', sm: '100%' } }}>
-            <ShowItems name="Pratos" items={dishes} />
-            <ShowItems name="Bebidas" items={drinks} />
-          </StyledContainer>
+  return (
+    <StyledBox>
+      <MobileBar />
+      <Bar />
+      <StyledContainer sx={{ pb: { xs: '60px', sm: '20px' }, px: 0 }}>
+        {loading ? (
+          <Skeleton variant="rectangular" width="100%" height={160} />
+        ) : (
+          establishmentMenu && <EstablishmentHeader establishment={establishmentMenu} />
+        )}
+        <StyledContainer sx={{ width: { xs: '90%', sm: '100%' } }}>
+          {establishmentMenu?.dishes && (
+            <ShowItems name="Pratos" items={establishmentMenu.dishes} loading={loading} />
+          )}
+          {establishmentMenu?.drinks && (
+            <ShowItems name="Bebidas" items={establishmentMenu.drinks} loading={loading} />
+          )}
         </StyledContainer>
-      </StyledBox>
-    );
-  } else {
-    <></>;
-  }
+      </StyledContainer>
+    </StyledBox>
+  );
 };
 
 export default Menu;

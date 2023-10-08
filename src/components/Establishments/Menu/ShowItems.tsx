@@ -1,17 +1,19 @@
 import { MutableRefObject, useRef } from 'react';
-import { Box, IconButton, Typography, styled } from '@mui/material';
+import { Box, IconButton, Skeleton, Typography, styled } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
 import ItemCard from '@/components/Establishments/Menu/ItemCard';
 import Dish from '@/types/Dish';
 import Drink from '@/types/Drink';
+import NoData from '@/components/NoData';
 
 interface ShowItemsProps {
   name: string;
   items: Dish[] | Drink[];
+  loading: boolean;
 }
 
-const ShowItems = ({ name, items }: ShowItemsProps) => {
+const ShowItems = ({ name, items, loading }: ShowItemsProps) => {
   const scrollDishesRef = useRef<HTMLDivElement | null>(null);
 
   const scrollLeft = (scrollContainerRef: MutableRefObject<HTMLDivElement | null>) => {
@@ -73,23 +75,54 @@ const ShowItems = ({ name, items }: ShowItemsProps) => {
     },
   }));
 
+  const StyledItemBox = styled(Box)(() => ({
+    flexShrink: 0,
+    flexGrow: 1,
+    height: '100%',
+    minHeight: 190,
+    width: 220,
+  }));
+
   return (
     <>
       <Typography variant="h6" color="text.primary" py={1}>
         {name}
       </Typography>
-      <Box display="flex" alignItems="center" flexGrow="1" sx={{ position: 'relative' }} py={1}>
-        <StyledIconButtonLeft onClick={() => scrollLeft(scrollDishesRef)}>
-          <ChevronLeft />
-        </StyledIconButtonLeft>
-        <StyledBox ref={scrollDishesRef}>
-          {items.map((item) => (
-            <ItemCard key={item.id} item={item} />
-          ))}
-        </StyledBox>
-        <StyledIconButtonRight onClick={() => scrollRight(scrollDishesRef)}>
-          <ChevronRight />
-        </StyledIconButtonRight>
+      <Box
+        display="flex"
+        alignItems="center"
+        flexGrow="1"
+        justifyContent="center"
+        sx={{ position: 'relative' }}
+        py={1}
+      >
+        {loading ? (
+          <StyledBox>
+            {Array.from(new Array(15)).map((_, index) => (
+              <StyledItemBox key={index}>
+                <Skeleton key={index} variant="rectangular" width={220} height="100%" />
+              </StyledItemBox>
+            ))}
+          </StyledBox>
+        ) : items.length === 0 ? (
+          <NoData />
+        ) : (
+          <>
+            <StyledIconButtonLeft onClick={() => scrollLeft(scrollDishesRef)}>
+              <ChevronLeft />
+            </StyledIconButtonLeft>
+            <StyledBox ref={scrollDishesRef}>
+              {items.map((item) => (
+                <StyledItemBox key={item.id}>
+                  <ItemCard key={item.id} item={item} />
+                </StyledItemBox>
+              ))}
+            </StyledBox>
+            <StyledIconButtonRight onClick={() => scrollRight(scrollDishesRef)}>
+              <ChevronRight />
+            </StyledIconButtonRight>
+          </>
+        )}
       </Box>
     </>
   );
