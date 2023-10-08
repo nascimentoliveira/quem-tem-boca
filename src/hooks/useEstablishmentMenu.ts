@@ -3,10 +3,12 @@ import Swal from 'sweetalert2';
 
 import api from '@/utils/api';
 import EstablishmentMenu from '@/types/EstablishmentMenu';
+import useUser from './useUser';
 
-const useEstablishmentMenu = (accessToken: string | null, id: number) => {
+const useEstablishmentMenu = (id: number) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [establishmentMenu, setEstablishmentMenu] = useState<EstablishmentMenu>();
+  const { accessToken } = useUser();
 
   useEffect(() => {
     const config = {

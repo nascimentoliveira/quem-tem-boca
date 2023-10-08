@@ -3,10 +3,12 @@ import Swal from 'sweetalert2';
 
 import api from '@/utils/api';
 import Establishment from '@/types/Establishment';
+import useUser from './useUser';
 
-const useEstablishment = (accessToken: string | null) => {
-  const [establishments, setEstablishments] = useState<Establishment[]>();
+const useEstablishment = (query?: string | null) => {
+  const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const { accessToken } = useUser();
 
   useEffect(() => {
     const config = {
@@ -16,7 +18,10 @@ const useEstablishment = (accessToken: string | null) => {
     };
     const fetchEstablishmentsData = async () => {
       try {
-        const response = await api.get('/establishments', config);
+        const response = await api.get(
+          query ? `/establishments/search?name=${query}` : '/establishments',
+          config,
+        );
         setEstablishments(response.data);
         setLoading(false);
       } catch (error: any) {
@@ -33,7 +38,7 @@ const useEstablishment = (accessToken: string | null) => {
     };
 
     fetchEstablishmentsData();
-  }, [accessToken]);
+  }, [accessToken, query]);
 
   return { establishments, loading };
 };

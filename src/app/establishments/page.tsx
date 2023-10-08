@@ -1,4 +1,5 @@
 'use client';
+import { useSearchParams } from 'next/navigation';
 import { Box, Container, Grid } from '@mui/material';
 
 import theme from '../../themes/theme';
@@ -6,11 +7,10 @@ import EstablishmentCard from '../../components/Establishments/EstablishmentCard
 import Bar from '../../components/Establishments/AppBar';
 import MobileBar from '../../components/Establishments/MobileBar';
 import useEstablishments from '@/hooks/useEstablishments';
-import useUser from '@/hooks/useUser';
 
 const Establishments = () => {
-  const { accessToken } = useUser();
-  const { establishments } = useEstablishments(accessToken);
+  const query = useSearchParams().get('name');
+  const { establishments } = useEstablishments(query);
 
   if (establishments) {
     return (

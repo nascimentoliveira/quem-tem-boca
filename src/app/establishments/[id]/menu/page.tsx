@@ -6,12 +6,10 @@ import Bar from '@/components/Establishments/AppBar';
 import MobileBar from '@/components/Establishments/MobileBar';
 import EstablishmentHeader from '@/components/Establishments/Menu/EstablishmentHeader';
 import ShowItems from '@/components/Establishments/Menu/ShowItems';
-import useUser from '@/hooks/useUser';
 import useEstablishmentMenu from '@/hooks/useEstablishmentMenu';
 
 const Menu = ({ params }: { params: { id: string } }) => {
-  const { accessToken } = useUser();
-  const { establishmentMenu } = useEstablishmentMenu(accessToken, Number(params.id));
+  const { establishmentMenu } = useEstablishmentMenu(Number(params.id));
 
   const StyledBox = styled(Box)(() => ({
     width: '100vw',
