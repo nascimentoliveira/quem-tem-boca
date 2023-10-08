@@ -1,3 +1,6 @@
+import Dish from './Dish';
+import Drink from './Drink';
+
 export default interface Establishment {
   id: number;
   name: string;
@@ -13,4 +16,6 @@ export default interface Establishment {
   bannerUrl: string;
   createdAt: string;
   updatedAt: string;
+  dishes?: Dish[];
+  drinks?: Drink[];
 }

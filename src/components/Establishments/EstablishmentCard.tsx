@@ -16,6 +16,7 @@ import {
 
 import theme from '@/themes/theme';
 import Establishment from '@/types/Establishment';
+import SearchItemCard from './SearchItemCard';
 
 interface EstablishmentCardProps {
   establishment: Establishment;
@@ -62,6 +63,7 @@ const EstablishmentCard = ({ establishment }: EstablishmentCardProps) => {
     },
   }));
 
+  console.log(establishment);
   return (
     <Card elevation={5}>
       <CardActionArea onClick={() => handleCardClick(establishment.id)}>
@@ -117,6 +119,20 @@ const EstablishmentCard = ({ establishment }: EstablishmentCardProps) => {
               <Typography variant="subtitle2">{formatPrice(establishment.minTicket)}</Typography>
             </Stack>
           </Stack>
+          {establishment.dishes && establishment.dishes?.length > 0 && (
+            <SearchItemCard
+              name="Pratos"
+              items={establishment.dishes}
+              avatarUrl={establishment.avatarUrl}
+            />
+          )}
+          {establishment.drinks && establishment.drinks?.length > 0 && (
+            <SearchItemCard
+              name="Bebidas"
+              items={establishment.drinks}
+              avatarUrl={establishment.avatarUrl}
+            />
+          )}
         </CardContent>
       </CardActionArea>
     </Card>
