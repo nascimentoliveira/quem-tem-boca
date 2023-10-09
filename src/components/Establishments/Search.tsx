@@ -22,7 +22,7 @@ const Search = (props: SearchProps) => {
   const onSubmit = async (search: SearchForm) => {
     const query = search.query.trim();
     if (query !== '' && query.length >= 3) {
-      router.push(`/establishments?name=${query}`);
+      router.push(`/establishments?query=${query}`);
     } else {
       Swal.fire({
         icon: 'question',

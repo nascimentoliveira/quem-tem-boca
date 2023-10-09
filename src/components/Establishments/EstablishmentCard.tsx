@@ -63,14 +63,6 @@ const EstablishmentCard = ({ establishment }: EstablishmentCardProps) => {
     },
   }));
 
-  const StyledAvatar = styled(Avatar)(() => ({
-    width: 100,
-    height: 100,
-    marginTop: -8,
-    border: 6,
-    borderColor: 'white',
-  }));
-
   return (
     <Card elevation={5}>
       <CardActionArea onClick={() => handleCardClick(establishment.id)}>
@@ -79,7 +71,10 @@ const EstablishmentCard = ({ establishment }: EstablishmentCardProps) => {
           sx={{ py: 0 }}
           avatar={
             <StyledBadge overlap="circular" badgeContent=" ">
-              <StyledAvatar src={establishment.avatarUrl} />
+              <Avatar
+                sx={{ width: 100, height: 100, marginTop: -8, border: 6, borderColor: 'white' }}
+                src={establishment.avatarUrl}
+              />
             </StyledBadge>
           }
           title={

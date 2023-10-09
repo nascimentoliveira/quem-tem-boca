@@ -19,7 +19,7 @@ const useEstablishment = (query?: string | null) => {
     const fetchEstablishmentsData = async () => {
       try {
         const response = await api.get(
-          query ? `/establishments/search?name=${query}` : '/establishments',
+          query ? `/establishments/search?query=${query}` : '/establishments',
           config,
         );
         setEstablishments(response.data);

@@ -1,4 +1,4 @@
-import { Avatar, Badge, Box, Card, Grid, Typography, styled } from '@mui/material';
+import { Avatar, Badge, Box, Card, Grid, Stack, Typography, styled } from '@mui/material';
 
 import Dish from '@/types/Dish';
 import Drink from '@/types/Drink';
@@ -21,7 +21,7 @@ const SearchItemCard = ({ name, items, avatarUrl }: MenuItemCardProps) => {
       <Typography variant="subtitle2" color="secondary">
         {name}
       </Typography>
-      <Grid container spacing={1} display="flex" justifyContent="center">
+      <Grid container spacing={1}>
         {items.map((item: Dish | Drink) => (
           <Grid item key={item.id}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -32,9 +32,14 @@ const SearchItemCard = ({ name, items, avatarUrl }: MenuItemCardProps) => {
               >
                 <Avatar variant="rounded" src={item.imageUrl} />
               </Badge>
-              <Typography variant="subtitle2" ml={2}>
-                {item.name}
-              </Typography>
+              <Stack>
+                <Typography variant="subtitle2" ml={2}>
+                  {item.name}
+                </Typography>
+                <Typography variant="caption" ml={2}>
+                  {item.description}
+                </Typography>
+              </Stack>
             </Box>
           </Grid>
         ))}

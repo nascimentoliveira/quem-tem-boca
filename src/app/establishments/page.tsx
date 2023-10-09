@@ -10,7 +10,7 @@ import useEstablishments from '@/hooks/useEstablishments';
 import NoData from '@/components/NoData';
 
 const Establishments = () => {
-  const query = useSearchParams().get('name');
+  const query = useSearchParams().get('query');
   const { establishments, loading } = useEstablishments(query);
 
   const StyledContainer = styled(Container)(() => ({
