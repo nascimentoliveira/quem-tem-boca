@@ -19,9 +19,8 @@ const MobileView = ({ button, form, isFirstHalf }: MobileViewProps) => {
   const StyledBottomBox = styled(Box)(() => ({
     background: 'linear-gradient(to top, #000000 0%, #000000e6 20%, #00000000 60%)',
     width: '100%',
-    height: '40vh',
+    height: '30vh',
     display: 'flex',
-    justifyContent: 'flex-end',
     alignItems: 'flex-end',
     padding: 40,
   }));
@@ -51,7 +50,7 @@ const MobileView = ({ button, form, isFirstHalf }: MobileViewProps) => {
           <HomeHeader showFirstHalf={showFirstHalf}>
             <Logo height="min-content" width="60%" minWidth={250} />
           </HomeHeader>
-          <StyledBottomBox>
+          <StyledBottomBox justifyContent="flex-end">
             <StyledButton color="secondary" variant="extended" onClick={handleClickNext}>
               Começar
               <EastRounded sx={{ ml: 1 }} />
@@ -67,7 +66,9 @@ const MobileView = ({ button, form, isFirstHalf }: MobileViewProps) => {
             </StyledButton>
             {button}
           </HomeHeader>
-          <FormContainer>{form}</FormContainer>
+          <StyledBottomBox justifyContent="center">
+            <FormContainer>{form}</FormContainer>
+          </StyledBottomBox>
         </>
       )}
     </StyledMainBox>
