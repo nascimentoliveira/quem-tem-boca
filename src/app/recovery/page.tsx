@@ -18,7 +18,7 @@ const Recovery = () => {
   return (
     <StyledContainer>
       {isSmallScreen ? (
-        <MobileView button={button} form={form} isFirstHalf={false} />
+        <MobileView button={button} form={form} />
       ) : (
         <DesktopView button={button} form={form} />
       )}

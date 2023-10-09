@@ -10,7 +10,7 @@ import FormContainer from './forms/FormContainer';
 interface MobileViewProps {
   button: ReactNode;
   form: ReactNode;
-  isFirstHalf: boolean;
+  isFirstHalf?: boolean;
 }
 
 const MobileView = ({ button, form, isFirstHalf }: MobileViewProps) => {
