@@ -2,11 +2,11 @@
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import DesktopView from '@/components/Home/DesktopView';
-import MobileView from '@/components/Home/MobileView';
-import ChangeFormButton from '@/components/Home/ChangeFormButton';
-import LoginForm from '@/components/Home/forms/LoginForm';
-import StyledContainer from '@/components/Home/StyledContainer';
+import DesktopView from '@/components/DesktopView';
+import MobileView from '@/components/MobileView';
+import ChangeFormButton from '@/components/ChangeFormButton';
+import LoginForm from '@/components/forms/LoginForm';
+import StyledContainer from '@/components/StyledContainer';
 import useUser from '@/hooks/useUser';
 import useScreenSize from '@/contexts/screenContext';
 

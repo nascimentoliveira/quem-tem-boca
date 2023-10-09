@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 
 import StyledMainBox from '@/components/StyledMain';
-import FormContainer from '@/components/Home/forms/FormContainer';
+import FormContainer from '@/components/forms/FormContainer';
 import HomeHeader from '@/components/HomeHeader';
-import Logo from '../Logo';
+import Logo from './Logo';
 
 interface DesktopViewProps {
   button: ReactNode;

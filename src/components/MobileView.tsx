@@ -2,9 +2,9 @@ import { ReactNode, useState } from 'react';
 import { Box, Fab, styled } from '@mui/material';
 import { EastRounded, KeyboardBackspaceRounded } from '@mui/icons-material';
 
-import Logo from '../Logo';
-import StyledMainBox from '../StyledMain';
-import HomeHeader from '../HomeHeader';
+import Logo from './Logo';
+import StyledMainBox from './StyledMain';
+import HomeHeader from './HomeHeader';
 import FormContainer from './forms/FormContainer';
 
 interface MobileViewProps {

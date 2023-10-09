@@ -1,9 +1,9 @@
 'use client';
-import DesktopView from '@/components/Home/DesktopView';
-import MobileView from '@/components/Home/MobileView';
-import ChangeFormButton from '@/components/Home/ChangeFormButton';
-import JoinForm from '@/components/Home/forms/JoinForm';
-import StyledContainer from '@/components/Home/StyledContainer';
+import DesktopView from '@/components/DesktopView';
+import MobileView from '@/components/MobileView';
+import ChangeFormButton from '@/components/ChangeFormButton';
+import JoinForm from '@/components/forms/JoinForm';
+import StyledContainer from '@/components/StyledContainer';
 import useScreenSize from '@/contexts/screenContext';
 
 const Join = () => {
