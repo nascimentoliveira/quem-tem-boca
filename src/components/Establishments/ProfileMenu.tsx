@@ -3,7 +3,6 @@ import { Menu, MenuItem, Stack, Typography } from '@mui/material';
 import { IoExitOutline } from 'react-icons/io5';
 
 import theme from '@/themes/theme';
-import { useRouter } from 'next/navigation';
 import useUser from '@/hooks/useUser';
 
 interface ProfileMenuProps {
@@ -12,13 +11,10 @@ interface ProfileMenuProps {
 }
 
 const ProfileMenu = ({ anchorEl, setAnchorEl }: ProfileMenuProps) => {
-  const router = useRouter();
   const { signOut } = useUser();
 
   const handleLogoutClick = () => {
     signOut();
-    setAnchorEl(null);
-    router.push('/login');
   };
   const handleClose = () => {
     setAnchorEl(null);

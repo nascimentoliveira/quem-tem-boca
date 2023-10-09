@@ -9,7 +9,7 @@ import NoData from '@/components/NoData';
 
 interface ShowItemsProps {
   name: string;
-  items: Dish[] | Drink[];
+  items: Dish[] | Drink[] | undefined;
   loading: boolean;
 }
 
@@ -104,7 +104,7 @@ const ShowItems = ({ name, items, loading }: ShowItemsProps) => {
               </StyledItemBox>
             ))}
           </StyledBox>
-        ) : items.length === 0 ? (
+        ) : items && items.length === 0 ? (
           <NoData />
         ) : (
           <>
@@ -112,7 +112,7 @@ const ShowItems = ({ name, items, loading }: ShowItemsProps) => {
               <ChevronLeft />
             </StyledIconButtonLeft>
             <StyledBox ref={scrollDishesRef}>
-              {items.map((item) => (
+              {items?.map((item) => (
                 <StyledItemBox key={item.id}>
                   <ItemCard key={item.id} item={item} />
                 </StyledItemBox>

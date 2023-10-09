@@ -37,7 +37,6 @@ const Home = () => {
     const fetchData = async () => {
       try {
         await checkApiConnection();
-
         if (accessToken) {
           router.push('/establishments');
         } else {

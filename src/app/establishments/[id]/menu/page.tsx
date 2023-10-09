@@ -44,12 +44,8 @@ const Menu = ({ params }: { params: { id: string } }) => {
           establishmentMenu && <EstablishmentHeader establishment={establishmentMenu} />
         )}
         <StyledContainer sx={{ width: { xs: '90%', sm: '100%' } }}>
-          {establishmentMenu?.dishes && (
-            <ShowItems name="Pratos" items={establishmentMenu.dishes} loading={loading} />
-          )}
-          {establishmentMenu?.drinks && (
-            <ShowItems name="Bebidas" items={establishmentMenu.drinks} loading={loading} />
-          )}
+          <ShowItems name="Pratos" items={establishmentMenu?.dishes} loading={loading} />
+          <ShowItems name="Bebidas" items={establishmentMenu?.drinks} loading={loading} />
         </StyledContainer>
       </StyledContainer>
     </StyledBox>

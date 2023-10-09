@@ -7,7 +7,7 @@ import useUser from './useUser';
 
 const useEstablishment = (query?: string | null) => {
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const { accessToken } = useUser();
 
   useEffect(() => {
@@ -16,8 +16,10 @@ const useEstablishment = (query?: string | null) => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
+
     const fetchEstablishmentsData = async () => {
       try {
+        setLoading(true);
         const response = await api.get(
           query ? `/establishments/search?query=${query}` : '/establishments',
           config,
@@ -25,22 +27,20 @@ const useEstablishment = (query?: string | null) => {
         setEstablishments(response.data);
         setLoading(false);
       } catch (error: any) {
-        if (loading) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: error.response?.data.message,
-            footer: `<p>Por que tenho esse problema? <br />
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response?.data.message,
+          footer: `<p>Por que tenho esse problema? <br />
           Não foi possivel buscar os dados dos estabelecimentos.</p>`,
-          });
-          console.error('Error when searching for establishment data:', error);
-          setLoading(false);
-        }
+        });
+        console.error('Error when searching for establishment data:', error);
+        setLoading(false);
       }
     };
 
     fetchEstablishmentsData();
-  }, [accessToken, loading, query]);
+  }, [accessToken, query]);
 
   return { establishments, loading };
 };

@@ -6,7 +6,7 @@ import useUser from './useUser';
 import Establishment from '@/types/Establishment';
 
 const useEstablishmentMenu = (id: number) => {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [establishmentMenu, setEstablishmentMenu] = useState<Establishment>();
   const { accessToken } = useUser();
 
@@ -18,6 +18,7 @@ const useEstablishmentMenu = (id: number) => {
     };
     const fetchEstablishmentsMenuData = async () => {
       try {
+        setLoading(true);
         const response = await api.get(`/establishments/${id}/menu`, config);
         setEstablishmentMenu(response.data);
         setLoading(false);

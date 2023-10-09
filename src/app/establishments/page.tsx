@@ -15,10 +15,10 @@ const Establishments = () => {
 
   const StyledContainer = styled(Container)(() => ({
     minHeight: '100vh',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
   }));
 
   return (
@@ -26,11 +26,14 @@ const Establishments = () => {
       <Box width="100%" sx={{ backgroundColor: theme.palette.primary.main }}>
         <MobileBar />
         <Bar />
-        <StyledContainer maxWidth="lg" sx={{ py: 10, px: 4 }}>
-          {!loading && establishments.length === 0 ? (
+
+        {!loading && establishments.length === 0 ? (
+          <StyledContainer maxWidth="lg" sx={{ py: 10, px: 4, justifyContent: 'center' }}>
             <NoData />
-          ) : (
-            <Grid container spacing={2}>
+          </StyledContainer>
+        ) : (
+          <StyledContainer maxWidth="lg" sx={{ py: 10, px: 4 }}>
+            <Grid container spacing={2} height="100%">
               {(loading ? Array.from(new Array(15)) : establishments).map((establishment, index) =>
                 loading ? (
                   <Grid item xs={12} sm={6} md={4} key={index}>
@@ -43,8 +46,8 @@ const Establishments = () => {
                 ),
               )}
             </Grid>
-          )}
-        </StyledContainer>
+          </StyledContainer>
+        )}
       </Box>
     </main>
   );
