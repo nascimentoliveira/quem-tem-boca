@@ -50,7 +50,9 @@ const Home = () => {
     fetchData();
   }, [accessToken, router]);
 
-  return <LoadingBackDrop start />;
+  return (
+    <LoadingBackDrop message="Aguarde alguns instantes, os servidores estão inicializando..." />
+  );
 };
 
 export default Home;
