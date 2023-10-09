@@ -18,7 +18,7 @@ const ProfileMenu = ({ anchorEl, setAnchorEl }: ProfileMenuProps) => {
   const handleLogoutClick = () => {
     signOut();
     setAnchorEl(null);
-    router.push('/');
+    router.push('/login');
   };
   const handleClose = () => {
     setAnchorEl(null);

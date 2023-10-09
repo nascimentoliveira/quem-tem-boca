@@ -25,20 +25,22 @@ const useEstablishment = (query?: string | null) => {
         setEstablishments(response.data);
         setLoading(false);
       } catch (error: any) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: error.response?.data.message,
-          footer: `<p>Por que tenho esse problema? <br />
+        if (loading) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error.response?.data.message,
+            footer: `<p>Por que tenho esse problema? <br />
           Não foi possivel buscar os dados dos estabelecimentos.</p>`,
-        });
-        console.error('Error when searching for establishment data:', error);
-        setLoading(false);
+          });
+          console.error('Error when searching for establishment data:', error);
+          setLoading(false);
+        }
       }
     };
 
     fetchEstablishmentsData();
-  }, [accessToken, query]);
+  }, [accessToken, loading, query]);
 
   return { establishments, loading };
 };
