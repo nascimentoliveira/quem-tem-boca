@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 import api from '../utils/api';
 import LoadingBackDrop from '../components/LoadingBackdrop';
@@ -14,17 +15,40 @@ const Home = () => {
     try {
       await api.get('/health');
     } catch (error) {
-      console.error('Error checking connection to the API:', error);
+      throw new Error('Erro ao verificar a conexão com a API');
     }
   };
 
   useEffect(() => {
-    checkApiConnection();
-    if (accessToken) {
-      router.push('/establishments');
-    } else {
-      router.push('/login?origin=home');
-    }
+    const handleApiConnectionError = () => {
+      console.error('Erro ao verificar a conexão com a API');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Verifique a sua conexão ou tente novamente mais tarde.',
+        footer: `<p>Por que tenho esse problema? <br />
+        Não foi possível estabelecer conexão com o servidor.</p>`,
+        confirmButtonText: 'Tentar novamente',
+      }).then(() => {
+        window.location.reload();
+      });
+    };
+
+    const fetchData = async () => {
+      try {
+        await checkApiConnection();
+
+        if (accessToken) {
+          router.push('/establishments');
+        } else {
+          router.push('/login?origin=home');
+        }
+      } catch (error) {
+        handleApiConnectionError();
+      }
+    };
+
+    fetchData();
   }, [accessToken, router]);
 
   return <LoadingBackDrop />;
