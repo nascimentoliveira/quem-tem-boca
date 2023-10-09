@@ -1,9 +1,10 @@
-import { Box, CircularProgress, Stack, styled } from '@mui/material';
+import { ReactNode } from 'react';
+import { Box, CircularProgress, Stack, Typography, styled } from '@mui/material';
 
 import theme, { ThemeWrapper } from '../themes/theme';
 import Logo from './Logo';
 
-const LoadingBackDrop = () => {
+const LoadingBackDrop = ({ start }: { start?: boolean }): ReactNode => {
   const StyledMainBox = styled(Box)(() => ({
     width: '100vw',
     height: '100vh',
@@ -17,8 +18,13 @@ const LoadingBackDrop = () => {
   return (
     <ThemeWrapper>
       <StyledMainBox component="main">
-        <Stack spacing={4} alignItems="center">
+        <Stack spacing={4} alignItems="center" px={2}>
           <Logo height="auto" width="20%" minWidth={140} />
+          {start && (
+            <Typography color="white" variant="subtitle1" textAlign="center">
+              Aguarde alguns instantes, os servidores estão inicializando...
+            </Typography>
+          )}
           <CircularProgress />
         </Stack>
       </StyledMainBox>

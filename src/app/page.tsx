@@ -50,7 +50,7 @@ const Home = () => {
     fetchData();
   }, [accessToken, router]);
 
-  return <LoadingBackDrop />;
+  return <LoadingBackDrop start />;
 };
 
 export default Home;
