@@ -8,10 +8,12 @@ import ChangeFormButton from '@/components/Home/ChangeFormButton';
 import LoginForm from '@/components/Home/forms/LoginForm';
 import StyledContainer from '@/components/Home/StyledContainer';
 import useUser from '@/hooks/useUser';
+import useScreenSize from '@/contexts/screenContext';
 
 const Login = () => {
   const router = useRouter();
   const { accessToken } = useUser();
+  const { isSmallScreen } = useScreenSize();
 
   useEffect(() => {
     if (accessToken) {
@@ -29,8 +31,11 @@ const Login = () => {
 
   return (
     <StyledContainer>
-      <DesktopView button={button} form={form} />
-      <MobileView button={button} form={form} isFirstHalf={isFirstHalf} />
+      {isSmallScreen ? (
+        <MobileView button={button} form={form} isFirstHalf={isFirstHalf} />
+      ) : (
+        <DesktopView button={button} form={form} />
+      )}
     </StyledContainer>
   );
 };

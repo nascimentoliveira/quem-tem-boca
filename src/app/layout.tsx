@@ -1,8 +1,9 @@
 import './globals.css';
 import type { Metadata } from 'next';
 
-import { ThemeWrapper } from '@/themes/theme';
+import theme, { ThemeWrapper } from '@/themes/theme';
 import { UserProvider } from '@/contexts/userContext';
+import { ScreenSizeProvider } from '@/contexts/screenContext';
 
 export const metadata: Metadata = {
   title: 'Quem tem boca',
@@ -14,7 +15,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-br">
       <body>
         <ThemeWrapper>
-          <UserProvider>{children}</UserProvider>
+          <ScreenSizeProvider theme={theme}>
+            <UserProvider>{children}</UserProvider>
+          </ScreenSizeProvider>
         </ThemeWrapper>
       </body>
     </html>
