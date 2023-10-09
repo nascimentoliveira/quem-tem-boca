@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
+import { useRouter } from 'next/navigation';
 import { Menu, MenuItem, Stack, Typography } from '@mui/material';
 import { IoExitOutline } from 'react-icons/io5';
 
 import theme from '@/themes/theme';
-import useUser from '@/hooks/useUser';
 
 interface ProfileMenuProps {
   anchorEl: HTMLElement | null;
@@ -11,10 +11,10 @@ interface ProfileMenuProps {
 }
 
 const ProfileMenu = ({ anchorEl, setAnchorEl }: ProfileMenuProps) => {
-  const { signOut } = useUser();
+  const router = useRouter();
 
   const handleLogoutClick = () => {
-    signOut();
+    router.push('/logout');
   };
   const handleClose = () => {
     setAnchorEl(null);

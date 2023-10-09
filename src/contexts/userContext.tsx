@@ -1,6 +1,5 @@
 'use client';
 import { ReactNode, createContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 import LoadingBackDrop from '@/components/LoadingBackdrop';
 
@@ -31,7 +30,6 @@ const initialContext: UserContextType = {
 export const UserContext = createContext<UserContextType>(initialContext);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const router = useRouter();
   const [userDataLoaded, setUserDataLoaded] = useState(false);
   const [user, setUser] = useState<UserData | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -46,7 +44,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('Quem-tem-boca');
     setUser(null);
     setAccessToken(null);
-    router.push('/login');
   };
 
   useEffect(() => {
